@@ -1,0 +1,59 @@
+---
+layout: base.njk
+title: Home
+---
+<div class="article-container">
+
+  {% set sortedArticles = collections.articles | reverse %}
+
+  {% if sortedArticles.length > 0 %}
+    {% set latest = sortedArticles[0] %}
+
+    <div class="latest-article">
+      <span class="latest-label">Latest</span>
+      <h2 class="article-title">
+        <a href="{{ latest.url }}">{{ latest.data.title }}</a>
+      </h2>
+      <div class="article-list-meta">
+        {{ latest.date | dateDisplay }}{% if latest.data.author %} · By {{ latest.data.author }}{% endif %}
+      </div>
+      {% if latest.data.excerpt %}
+      <p class="article-excerpt">{{ latest.data.excerpt }}</p>
+      {% endif %}
+      {% if latest.data.tags %}
+      <div class="article-tags">
+        {% for tag in latest.data.tags %}
+          {% if tag != "articles" %}
+          <span class="tag">{{ tag }}</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    {% if sortedArticles.length > 1 %}
+    <h2>Exploration</h2>
+    <ul class="article-list">
+      {% for article in sortedArticles %}
+        {% if loop.index > 1 %}
+        <li class="article-list-item">
+          <h3 class="article-list-item-title">
+            <a href="{{ article.url }}">{{ article.data.title }}</a>
+          </h3>
+          <div class="article-list-meta">
+            {{ article.date | dateDisplay }}{% if article.data.author %} · By {{ article.data.author }}{% endif %}
+          </div>
+          {% if article.data.excerpt %}
+          <p class="article-excerpt">{{ article.data.excerpt }}</p>
+          {% endif %}
+        </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+  {% else %}
+    <p>No articles yet. Check back soon.</p>
+  {% endif %}
+
+</div>

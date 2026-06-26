@@ -1,0 +1,27 @@
+---
+layout: base.njk
+---
+<div class="article-container">
+  <article>
+    <h1 class="article-title">{{ title }}</h1>
+    <div class="article-meta">
+      <span class="article-date">{{ date | dateDisplay }}</span>
+      {% if author %}<span> · By {{ author }}</span>{% endif %}
+      {% if tags %}
+      <div class="article-tags">
+        {% for tag in tags %}
+          {% if tag != "articles" %}
+          <span class="tag">{{ tag }}</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    <div class="article-body">
+      {{ content | safe }}
+    </div>
+    <div class="author-bio">
+      <p><strong>{{ site.author }}</strong> — Writing about design, ideas, and things that matter.</p>
+    </div>
+  </article>
+</div>

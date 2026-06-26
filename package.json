@@ -1,0 +1,12 @@
+{
+  "name": "nepo-blog",
+  "version": "1.0.0",
+  "description": "Nepô's personal blog",
+  "scripts": {
+    "serve": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}

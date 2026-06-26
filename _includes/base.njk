@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{ description or site.description }}">
+  <meta property="og:title" content="{{ title + ' — ' + site.title if title else site.title }}">
+  <meta property="og:description" content="{{ description or site.description }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:type" content="website">
+  <title>{% if title %}{{ title }} — {% endif %}{{ site.title }}</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="site-title"><a href="/">{{ site.name }}</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/design-system/">Design</a>
+      </nav>
+    </header>
+
+    <main>
+      {{ content | safe }}
+    </main>
+
+    <footer>
+      <p>© {{ site.name }} {{ site.year }} — Written by a human, published on the internet.</p>
+    </footer>
+  </div>
+</body>
+</html>

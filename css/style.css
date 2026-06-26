@@ -1,0 +1,534 @@
+/* ============================================
+   NEPO BLOG — DESIGN SYSTEM
+   Monocle-inspired aesthetic + #FFDC1E accent
+   
+   Design Philosophy:
+   - Old internet blog simplicity
+   - Beautiful typography & spacing
+   - Minimal, intentional, handcrafted
+   - Dark text on light background
+   - Yellow accent for emphasis only
+   ============================================ */
+
+/* ============================================
+   DESIGN TOKENS
+   ============================================ */
+
+:root {
+  /* TYPOGRAPHY */
+  --font-serif: 'Georgia', 'Garamond', 'Times New Roman', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  
+  /* SCALE & HIERARCHY */
+  --text-base: 18px;
+  --text-small: 14px;
+  --text-xs: 12px;
+  
+  --line-height-tight: 1.4;
+  --line-height-normal: 1.7;
+  --line-height-loose: 1.9;
+  
+  /* COLORS */
+  --color-text: #1a1a1a;
+  --color-text-light: #666;
+  --color-bg: #ffffff;
+  --color-border: #e5e5e5;
+  --color-accent: #FFDC1E;
+  --color-accent-dark: #f0c814;
+  
+  /* SPACING — based on 8px grid */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+  --space-2xl: 64px;
+  
+  /* CONTENT WIDTH */
+  --width-article: 600px;
+  --width-container: 100%;
+  
+  /* TRANSITIONS */
+  --transition: 0.2s ease-in-out;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--text-base);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+h1 {
+  font-size: 2.8rem;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: 2rem;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4, h5, h6 {
+  font-size: 1.1rem;
+}
+
+p {
+  margin-bottom: var(--space-md);
+  line-height: var(--line-height-normal);
+}
+
+p + p {
+  margin-top: 0;
+}
+
+/* TEXT TREATMENTS */
+
+strong, b {
+  font-weight: 600;
+}
+
+em, i {
+  font-style: italic;
+}
+
+/* HIGHLIGHT WITH YELLOW ACCENT */
+mark {
+  background-color: var(--color-accent);
+  color: #1a1a1a;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+/* ============================================
+   LINKS
+   ============================================ */
+
+a {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  transition: all var(--transition);
+}
+
+a:hover {
+  color: var(--color-accent-dark);
+  text-decoration-color: var(--color-text);
+}
+
+a:visited {
+  opacity: 0.7;
+}
+
+/* ============================================
+   LISTS
+   ============================================ */
+
+ul, ol {
+  margin-left: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+li {
+  margin-bottom: var(--space-sm);
+  line-height: var(--line-height-normal);
+}
+
+/* ============================================
+   BLOCKQUOTES
+   ============================================ */
+
+blockquote {
+  margin: var(--space-lg) 0;
+  padding-left: var(--space-lg);
+  border-left: 3px solid var(--color-accent);
+  font-style: italic;
+  color: var(--color-text-light);
+  font-size: 1.1rem;
+  line-height: var(--line-height-loose);
+}
+
+/* ============================================
+   CODE & PREFORMATTED
+   ============================================ */
+
+code {
+  font-family: 'Courier New', monospace;
+  background-color: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.95rem;
+}
+
+pre {
+  background-color: #f5f5f5;
+  padding: var(--space-md);
+  border-radius: 4px;
+  overflow-x: auto;
+  margin-bottom: var(--space-md);
+  line-height: var(--line-height-tight);
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+/* ============================================
+   LAYOUT CONTAINERS
+   ============================================ */
+
+.container {
+  width: var(--width-container);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.article-container {
+  width: 100%;
+  max-width: var(--width-article);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+header {
+  padding: var(--space-lg) 0;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-2xl);
+}
+
+.site-title {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.site-title a {
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.site-title a:hover {
+  color: var(--color-accent-dark);
+}
+
+nav a {
+  margin-right: var(--space-lg);
+  font-size: var(--text-small);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================
+   ARTICLE METADATA
+   ============================================ */
+
+.article-meta {
+  font-size: var(--text-small);
+  color: var(--color-text-light);
+  margin-bottom: var(--space-xl);
+  line-height: var(--line-height-tight);
+}
+
+.article-date {
+  display: block;
+  margin-bottom: var(--space-xs);
+}
+
+.article-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.tag {
+  display: inline-block;
+  background-color: var(--color-accent);
+  color: var(--color-text);
+  padding: 4px 12px;
+  border-radius: 3px;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+.tag:hover {
+  background-color: var(--color-accent-dark);
+  color: var(--color-text);
+}
+
+/* ============================================
+   ARTICLE BODY
+   ============================================ */
+
+article {
+  margin-bottom: var(--space-2xl);
+}
+
+.article-title {
+  margin-bottom: var(--space-lg);
+  line-height: var(--line-height-tight);
+}
+
+.article-body {
+  font-size: var(--text-base);
+}
+
+/* IMAGES IN ARTICLES */
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: var(--space-xl) 0;
+  border-radius: 2px;
+}
+
+figure {
+  margin: var(--space-xl) 0;
+}
+
+figcaption {
+  font-size: var(--text-small);
+  color: var(--color-text-light);
+  margin-top: var(--space-md);
+  font-style: italic;
+  line-height: var(--line-height-normal);
+}
+
+/* HORIZONTAL RULE */
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--color-border);
+  margin: var(--space-2xl) 0;
+}
+
+/* ============================================
+   AUTHOR BIO
+   ============================================ */
+
+.author-bio {
+  padding: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  margin: var(--space-2xl) 0;
+  font-size: var(--text-small);
+  color: var(--color-text-light);
+}
+
+.author-bio p {
+  margin-bottom: var(--space-sm);
+}
+
+.author-bio a {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+/* ============================================
+   HOMEPAGE / ARTICLE LISTING
+   ============================================ */
+
+.latest-article {
+  margin-bottom: var(--space-2xl);
+  padding-bottom: var(--space-2xl);
+  border-bottom: 2px solid var(--color-accent);
+}
+
+.latest-article .article-title {
+  font-size: 2.2rem;
+}
+
+.latest-label {
+  display: inline-block;
+  background-color: var(--color-accent);
+  color: var(--color-text);
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-md);
+  border-radius: 2px;
+}
+
+.article-excerpt {
+  font-size: 1.05rem;
+  line-height: var(--line-height-loose);
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+}
+
+.article-list {
+  list-style: none;
+}
+
+.article-list-item {
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.article-list-item:last-child {
+  border-bottom: none;
+}
+
+.article-list-item-title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  margin-bottom: var(--space-md);
+}
+
+.article-list-item-title a {
+  text-decoration: none;
+  color: var(--color-text);
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: 2px;
+}
+
+.article-list-item-title a:hover {
+  background-color: var(--color-accent);
+}
+
+.article-list-meta {
+  font-size: var(--text-small);
+  color: var(--color-text-light);
+  margin-bottom: var(--space-md);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+footer {
+  margin-top: var(--space-2xl);
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-small);
+  color: var(--color-text-light);
+  text-align: center;
+}
+
+footer a {
+  color: var(--color-text);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  :root {
+    --text-base: 16px;
+    --space-md: 20px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .site-title {
+    font-size: 1.3rem;
+  }
+
+  nav a {
+    margin-right: var(--space-md);
+  }
+
+  .article-container {
+    padding: 0 var(--space-md);
+  }
+
+  .latest-article .article-title {
+    font-size: 1.6rem;
+  }
+
+  .article-list-item-title {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --text-base: 15px;
+    --space-md: 16px;
+    --space-lg: 20px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  .site-title {
+    font-size: 1rem;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+  }
+
+  nav a {
+    margin-right: 0;
+    margin-bottom: var(--space-sm);
+  }
+}
