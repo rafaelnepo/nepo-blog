@@ -2,58 +2,44 @@
 layout: base.njk
 title: Home
 ---
-<div class="article-container">
+<div class="landing-page">
 
-  {% set sortedArticles = collections.articles | reverse %}
+  <div class="landing-intro">
+    <p>Designer, writer, and educator thinking about design, technology, and what the internet can still be.</p>
+  </div>
 
-  {% if sortedArticles.length > 0 %}
-    {% set latest = sortedArticles[0] %}
+  <div class="landing-sections">
 
-    <div class="latest-article">
-      <span class="latest-label">Latest</span>
-      <h2 class="article-title">
-        <a href="{{ latest.url }}">{{ latest.data.title }}</a>
-      </h2>
-      <div class="article-list-meta">
-        {{ latest.date | dateDisplay }}{% if latest.data.author %} · By {{ latest.data.author }}{% endif %}
-      </div>
-      {% if latest.data.excerpt %}
-      <p class="article-excerpt">{{ latest.data.excerpt }}</p>
-      {% endif %}
-      {% if latest.data.tags %}
-      <div class="article-tags">
-        {% for tag in latest.data.tags %}
-          {% if tag != "articles" %}
-          <span class="tag">{{ tag }}</span>
-          {% endif %}
-        {% endfor %}
-      </div>
-      {% endif %}
-    </div>
+    <a href="/blog/" class="section-card">
+      <span class="section-card-label">Blog</span>
+      <span class="section-card-desc">Writing on design, culture, and ideas.</span>
+      <span class="section-card-arrow icon" aria-hidden="true">arrow_forward</span>
+    </a>
 
-    {% if sortedArticles.length > 1 %}
-    <h2>Exploration</h2>
-    <ul class="article-list">
-      {% for article in sortedArticles %}
-        {% if loop.index > 1 %}
-        <li class="article-list-item">
-          <h3 class="article-list-item-title">
-            <a href="{{ article.url }}">{{ article.data.title }}</a>
-          </h3>
-          <div class="article-list-meta">
-            {{ article.date | dateDisplay }}{% if article.data.author %} · By {{ article.data.author }}{% endif %}
-          </div>
-          {% if article.data.excerpt %}
-          <p class="article-excerpt">{{ article.data.excerpt }}</p>
-          {% endif %}
-        </li>
-        {% endif %}
-      {% endfor %}
-    </ul>
-    {% endif %}
+    <a href="/training/" class="section-card">
+      <span class="section-card-label">Training</span>
+      <span class="section-card-desc">Workshops and courses on design and strategy.</span>
+      <span class="section-card-arrow icon" aria-hidden="true">arrow_forward</span>
+    </a>
 
-  {% else %}
-    <p>No articles yet. Check back soon.</p>
-  {% endif %}
+    <a href="/events/" class="section-card">
+      <span class="section-card-label">Events</span>
+      <span class="section-card-desc">Talks, panels, and public appearances.</span>
+      <span class="section-card-arrow icon" aria-hidden="true">arrow_forward</span>
+    </a>
+
+    <a href="/apps/" class="section-card">
+      <span class="section-card-label">Apps</span>
+      <span class="section-card-desc">Side projects and tools I've built.</span>
+      <span class="section-card-arrow icon" aria-hidden="true">arrow_forward</span>
+    </a>
+
+    <a href="/about/" class="section-card">
+      <span class="section-card-label">About</span>
+      <span class="section-card-desc">Who I am and what I'm working on.</span>
+      <span class="section-card-arrow icon" aria-hidden="true">arrow_forward</span>
+    </a>
+
+  </div>
 
 </div>
