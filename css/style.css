@@ -644,3 +644,34 @@ footer a { color: var(--color-text); }
 }
 
 .theme-toggle:hover .icon { color: var(--color-text); }
+
+/* ============================================
+   ABOUT PAGE
+   ============================================ */
+
+.about-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.about-meta-item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-md);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-small);
+}
+
+.about-meta-item:last-child { border-bottom: none; }
+
+.about-meta-label {
+  min-width: 100px;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  flex-shrink: 0;
+}
