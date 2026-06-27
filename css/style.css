@@ -307,24 +307,23 @@ li { margin-bottom: var(--space-sm); line-height: var(--line-height-normal); }
    ============================================ */
 
 blockquote {
-  position: relative;
   margin: var(--space-xl) 0;
-  padding: 80px 0 0 0;
+  padding: 0;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 1.15rem;
   line-height: var(--line-height-loose);
+  overflow: hidden;
 }
 
 blockquote::before {
   content: '\201C';
   font-family: var(--font-serif);
-  font-size: 7rem;
+  font-size: 5rem;
   color: var(--color-accent);
-  position: absolute;
-  top: 0;
-  left: 0;
-  line-height: 1;
+  line-height: 0.85;
+  float: left;
+  margin-right: var(--space-md);
   font-style: normal;
 }
 
