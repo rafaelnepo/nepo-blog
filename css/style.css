@@ -585,3 +585,56 @@ footer a { color: var(--color-text); }
   a { text-decoration: none; color: #000; }
   blockquote { border-left: 2pt solid #000; }
 }
+
+/* ============================================
+   MATERIAL SYMBOLS (icons)
+   ============================================ */
+
+.icon {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: -3px;
+  font-feature-settings: 'liga';
+  -webkit-font-feature-settings: 'liga';
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+  color: var(--color-accent);
+  margin-right: 4px;
+}
+
+nav .icon {
+  font-size: 18px;
+  vertical-align: -4px;
+  color: var(--color-text-light);
+}
+
+nav a:hover .icon {
+  color: var(--color-text);
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.article-date,
+.article-author {
+  display: inline-flex;
+  align-items: center;
+}
+
+.article-tags {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-top: 0;
+}

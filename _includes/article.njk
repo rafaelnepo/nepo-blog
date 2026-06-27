@@ -5,10 +5,19 @@ layout: base.njk
   <article>
     <h1 class="article-title">{{ title }}</h1>
     <div class="article-meta">
-      <span class="article-date">{{ date | dateDisplay }}</span>
-      {% if author %}<span> · By {{ author }}</span>{% endif %}
+      <span class="article-date">
+        <span class="icon" aria-hidden="true">calendar_today</span>
+        {{ date | dateDisplay }}
+      </span>
+      {% if author %}
+      <span class="article-author">
+        <span class="icon" aria-hidden="true">person</span>
+        {{ author }}
+      </span>
+      {% endif %}
       {% if tags %}
       <div class="article-tags">
+        <span class="icon" aria-hidden="true">label</span>
         {% for tag in tags %}
           {% if tag != "articles" %}
           <span class="tag">{{ tag }}</span>
