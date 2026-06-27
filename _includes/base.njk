@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,12 @@
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta property="og:type" content="website">
   <title>{% if title and title != "Home" %}{{ title }} — {% endif %}{{ site.title }}</title>
+  <script>
+    (function() {
+      var saved = localStorage.getItem('theme');
+      document.documentElement.setAttribute('data-theme', saved || 'light');
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,400,1,0&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
@@ -27,6 +33,9 @@
         <a href="/training/">Training</a>
         <a href="/events/">Events</a>
         <a href="/apps/">Apps</a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+          <span class="icon" id="theme-icon">dark_mode</span>
+        </button>
       </nav>
     </header>
 
@@ -35,9 +44,31 @@
     </main>
 
     <footer>
-      <p>© Rafael Nepô {{ site.year }} — Written by a human, published on the internet.</p>
+      <p>© Rafael Nepô</p>
     </footer>
 
   </div>
+
+  <script>
+    (function() {
+      var toggle = document.getElementById('theme-toggle');
+      var icon = document.getElementById('theme-icon');
+
+      function updateIcon() {
+        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+      }
+
+      updateIcon();
+
+      toggle.addEventListener('click', function() {
+        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        var next = isDark ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateIcon();
+      });
+    })();
+  </script>
 </body>
 </html>
