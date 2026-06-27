@@ -6,11 +6,11 @@
    ============================================ */
 
 :root {
-  --font-serif: 'EB Garamond', 'M PLUS Rounded 1c', 'Georgia', serif;
+  --font-serif: 'Cormorant Garamond', 'M PLUS Rounded 1c', 'Georgia', serif;
   --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
-  --font-sans: 'EB Garamond', 'M PLUS Rounded 1c', 'Georgia', serif;
+  --font-sans: 'Cormorant Garamond', 'M PLUS Rounded 1c', 'Georgia', serif;
 
-  --text-base: 20px;
+  --text-base: 22px;
   --text-small: 14px;
   --text-xs: 12px;
 
