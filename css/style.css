@@ -309,7 +309,7 @@ li { margin-bottom: var(--space-sm); line-height: var(--line-height-normal); }
 blockquote {
   position: relative;
   margin: var(--space-xl) 0;
-  padding: var(--space-sm) 0 var(--space-md) var(--space-2xl);
+  padding: 80px 0 0 0;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 1.15rem;
@@ -319,16 +319,24 @@ blockquote {
 blockquote::before {
   content: '\201C';
   font-family: var(--font-serif);
-  font-size: 12rem;
+  font-size: 7rem;
   color: var(--color-accent);
   position: absolute;
-  top: -30px;
-  left: -10px;
+  top: 0;
+  left: 0;
   line-height: 1;
   font-style: normal;
 }
 
 blockquote p { margin-bottom: 0; }
+
+blockquote p:last-child {
+  text-align: right;
+  font-style: normal;
+  font-size: var(--text-small);
+  color: var(--color-text-light);
+  margin-top: var(--space-sm);
+}
 
 /* ============================================
    CODE
