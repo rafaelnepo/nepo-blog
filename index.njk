@@ -1,45 +1,103 @@
 ---
 layout: base.njk
-title: Home
 ---
-<div class="landing-page">
+<div class="stage">
 
-  <div class="landing-intro">
-    <p>Designer, writer, and educator thinking about design, technology, and what the internet can still be.</p>
+  {# Diderot & d'Alembert, Encyclopédie (1751–1772), public domain.
+     Ink extracted to alpha; tinted and parallaxed in CSS. #}
+  <div class="plates" aria-hidden="true">
+    <div class="plate plate--schema"       data-depth="0.018"></div>
+    <div class="plate plate--amphitheatre" data-depth="0.042"></div>
+    <div class="plate plate--arch"         data-depth="0.030"></div>
   </div>
 
-  <div class="landing-sections">
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
 
-    <a href="/blog/" class="section-card">
-      <span class="section-card-label">Blog</span>
-      <span class="section-card-desc">Writing on design, culture, and ideas.</span>
-      <span class="section-card-arrow icon" aria-hidden="true">arrow_forward</span>
-    </a>
+  <main class="content">
 
-    <a href="/training/" class="section-card">
-      <span class="section-card-label">Training</span>
-      <span class="section-card-desc">Workshops and courses on design and strategy.</span>
-      <span class="section-card-arrow icon" aria-hidden="true">arrow_forward</span>
-    </a>
+    <div class="masthead">
+      <span class="masthead-name">Rafael Nepô</span>
+      <span class="masthead-role">Information Architect &amp; Presentation Strategist</span>
+    </div>
 
-    <a href="/events/" class="section-card">
-      <span class="section-card-label">Events</span>
-      <span class="section-card-desc">Talks, panels, and public appearances.</span>
-      <span class="section-card-arrow icon" aria-hidden="true">arrow_forward</span>
-    </a>
+    <h1 class="title">I turn complexity<br>into clarity.</h1>
 
-    <a href="/apps/" class="section-card">
-      <span class="section-card-label">Apps</span>
-      <span class="section-card-desc">Side projects and tools I've built.</span>
-      <span class="section-card-arrow icon" aria-hidden="true">arrow_forward</span>
-    </a>
+    <p class="lede">Information architecture and presentation strategy — for
+      organizations, and the teams inside them, whose message only gets one
+      chance to land.</p>
 
-    <a href="/about/" class="section-card">
-      <span class="section-card-label">About</span>
-      <span class="section-card-desc">Who I am and what I'm working on.</span>
-      <span class="section-card-arrow icon" aria-hidden="true">arrow_forward</span>
-    </a>
+    <div class="proof">
+      <p class="proof-row">
+        <span>C-suite &amp; senior leadership since 2012</span>
+        <span>Work delivered for Gartner, NVIDIA, Blizzard &amp; others</span>
+      </p>
+      <p class="proof-row">
+        <span>100+ conferences, workshops &amp; summits</span>
+        <span>10+ countries</span>
+      </p>
+    </div>
 
-  </div>
+    {# Tabs, not a carousel: all three titles stay visible so the offer is
+       never hidden — only the detail swaps. Without JS every panel renders
+       in normal flow, so nothing here depends on scripting. #}
+    <section class="services" aria-labelledby="services-heading">
+      <h2 id="services-heading" class="visually-hidden">Areas of work</h2>
+
+      <div class="services-bar">
+        {# Separators are their own aria-hidden elements rather than
+           pseudo-elements on the buttons, so "+" never leaks into a
+           tab's accessible name. #}
+        <div class="services-tabs" role="tablist" aria-label="Areas of work">
+          <button class="service-tab" role="tab" id="tab-events"
+                  aria-controls="panel-events">Live Events</button>
+          <span class="tab-sep" aria-hidden="true">+</span>
+          <button class="service-tab" role="tab" id="tab-strategy"
+                  aria-controls="panel-strategy">Strategy &amp; Content</button>
+          <span class="tab-sep" aria-hidden="true">+</span>
+          <button class="service-tab" role="tab" id="tab-speaking"
+                  aria-controls="panel-speaking">Speaking &amp; Training</button>
+        </div>
+
+        <div class="services-nav" hidden>
+          <button class="services-arrow" type="button" data-step="-1"
+                  aria-label="Previous area of work">&lsaquo;</button>
+          <button class="services-arrow" type="button" data-step="1"
+                  aria-label="Next area of work">&rsaquo;</button>
+        </div>
+      </div>
+
+      <div class="service-panels">
+        <div class="service-panel" role="tabpanel" id="panel-events" aria-labelledby="tab-events">
+          <p>On site — presentation design and information architecture, with
+            the rehearsals senior leadership needs before they shape how an
+            industry thinks.</p>
+        </div>
+        <div class="service-panel" role="tabpanel" id="panel-strategy" aria-labelledby="tab-strategy">
+          <p>The structure of the argument — research, review and rehearsals on
+            your schedule, remote or wherever the week puts you. Settled before
+            anyone opens a deck.</p>
+        </div>
+        <div class="service-panel" role="tabpanel" id="panel-speaking" aria-labelledby="tab-speaking">
+          <p>Keynotes, and in-company workshops that prepare your sales and
+            training teams for the room — until they are able to do this
+            without me.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="contact">
+      <a class="email" href="mailto:{{ site.email }}?subject=Working%20together">{{ site.email }}</a>
+      <button class="copy" type="button" data-email="{{ site.email }}">
+        <span class="copy-label">Copy address</span>
+      </button>
+    </div>
+
+  </main>
+
+  <footer class="colophon">
+    <p>© {{ site.founded }}–{{ site.year }} {{ site.entity }} · {{ site.location }}</p>
+    <p class="credit">Plates from Diderot &amp; d’Alembert’s <i>Encyclopédie</i>, 1751–1772</p>
+  </footer>
 
 </div>

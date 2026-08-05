@@ -1,75 +1,197 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ site.title }}</title>
   <meta name="description" content="{{ description or site.description }}">
-  <meta property="og:title" content="{{ title + ' — ' + site.title if title else site.title }}">
+  <link rel="canonical" href="{{ site.url }}/">
+  <meta name="theme-color" content="#0b0b09">
+
+  <meta property="og:title" content="{{ site.title }}">
   <meta property="og:description" content="{{ description or site.description }}">
-  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:url" content="{{ site.url }}/">
   <meta property="og:type" content="website">
-  <title>{% if title and title != "Home" %}{{ title }} — {% endif %}{{ site.title }}</title>
-  <script>
-    (function() {
-      var saved = localStorage.getItem('theme');
-      document.documentElement.setAttribute('data-theme', saved || 'light');
-    })();
-  </script>
+  <meta property="og:image" content="{{ site.url }}/images/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Rafael Nepô — Information Architect &amp; Presentation Strategist. I turn complexity into clarity.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ site.title }}">
+  <meta name="twitter:description" content="{{ description or site.description }}">
+  <meta name="twitter:image" content="{{ site.url }}/images/og.jpg">
+
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=M+PLUS+Rounded+1c:wght@400;500&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,400,1,0&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Rafael Nepô",
+    "url": "{{ site.url }}/",
+    "email": "mailto:{{ site.email }}",
+    "jobTitle": "Information Architect & Presentation Strategist",
+    "description": "{{ site.description }}",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "São Paulo",
+      "addressCountry": "BR"
+    },
+    "areaServed": [
+      { "@type": "Country", "name": "Brazil" },
+      { "@type": "Country", "name": "United States" },
+      { "@type": "Country", "name": "Japan" }
+    ],
+    "knowsAbout": [
+      "Information architecture",
+      "Conference and event architecture",
+      "Executive narrative and keynotes"
+    ],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Mee",
+      "url": "https://mee.cc"
+    }
+  }
+  </script>
 </head>
 <body>
-  <div class="container">
-
-    <header class="site-header">
-      <div class="site-nameplate">
-        <a href="/">Rafael Nepô</a>
-      </div>
-      <nav class="main-nav">
-        <a href="/" aria-label="Home"><span class="icon">home</span></a>
-        <a href="/about/">About</a>
-        <a href="/blog/">Blog</a>
-        <a href="/training/">Training</a>
-        <a href="/events/">Events</a>
-        <a href="/apps/">Apps</a>
-        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-          <span class="icon" id="theme-icon">dark_mode</span>
-        </button>
-      </nav>
-    </header>
-
-    <main>
-      {{ content | safe }}
-    </main>
-
-    <footer>
-      <p>© Rafael Nepô</p>
-    </footer>
-
-  </div>
+  {{ content | safe }}
 
   <script>
-    (function() {
-      var toggle = document.getElementById('theme-toggle');
-      var icon = document.getElementById('theme-icon');
+  (function () {
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-      function updateIcon() {
-        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+    /* ---- Parallax -------------------------------------------------
+       One rAF loop, lerped toward the pointer so the plates lag the
+       cursor rather than snapping to it. Writes two custom properties
+       on the stage; each plate multiplies them by its own depth. */
+    var stage = document.querySelector('.stage');
+
+    if (stage && !reduced.matches) {
+      var tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+
+      function frame() {
+        cx += (tx - cx) * 0.06;
+        cy += (ty - cy) * 0.06;
+        stage.style.setProperty('--px', cx.toFixed(4) + 'px');
+        stage.style.setProperty('--py', cy.toFixed(4) + 'px');
+
+        if (Math.abs(tx - cx) > 0.0005 || Math.abs(ty - cy) > 0.0005) {
+          raf = requestAnimationFrame(frame);
+        } else {
+          raf = null;
+        }
       }
 
-      updateIcon();
+      function nudge() { if (raf === null) raf = requestAnimationFrame(frame); }
 
-      toggle.addEventListener('click', function() {
-        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        var next = isDark ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
-        updateIcon();
+      window.addEventListener('pointermove', function (e) {
+        if (e.pointerType === 'touch') return;
+        tx = (e.clientX / window.innerWidth) - 0.5;
+        ty = (e.clientY / window.innerHeight) - 0.5;
+        nudge();
+      }, { passive: true });
+
+      window.addEventListener('pointerleave', function () {
+        tx = 0; ty = 0; nudge();
+      }, { passive: true });
+
+      /* Devices without a pointer get a slow autonomous drift so the
+         ground is never completely inert. */
+      if (!window.matchMedia('(hover: hover)').matches) {
+        var t0 = null;
+        (function drift(ts) {
+          if (t0 === null) t0 = ts;
+          var e = (ts - t0) / 9000;
+          tx = Math.sin(e) * 0.35;
+          ty = Math.cos(e * 0.7) * 0.25;
+          nudge();
+          requestAnimationFrame(drift);
+        })(performance.now());
+      }
+    }
+
+    /* ---- Service tabs ---------------------------------------------
+       Enhancement only. The markup ships with every panel visible and
+       no tab selected; this wires up the tab behaviour and reveals the
+       arrows. If it never runs, all three descriptions simply read. */
+    var tablist = document.querySelector('.services-tabs');
+
+    if (tablist) {
+      var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+      var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
+      var current = 0;
+
+      function select(i, focus) {
+        current = (i + tabs.length) % tabs.length;
+        tabs.forEach(function (tab, n) {
+          var on = n === current;
+          tab.setAttribute('aria-selected', on ? 'true' : 'false');
+          tab.tabIndex = on ? 0 : -1;
+          panels[n].hidden = !on;
+        });
+        if (focus) tabs[current].focus();
+      }
+
+      tabs.forEach(function (tab, n) {
+        tab.addEventListener('click', function () { select(n); });
       });
-    })();
+
+      /* WAI-ARIA tabs keyboard contract. */
+      tablist.addEventListener('keydown', function (e) {
+        var k = e.key;
+        if (k === 'ArrowRight') { select(current + 1, true); }
+        else if (k === 'ArrowLeft') { select(current - 1, true); }
+        else if (k === 'Home') { select(0, true); }
+        else if (k === 'End') { select(tabs.length - 1, true); }
+        else { return; }
+        e.preventDefault();
+      });
+
+      var nav = document.querySelector('.services-nav');
+      if (nav) {
+        nav.hidden = false;
+        nav.querySelectorAll('.services-arrow').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            select(current + parseInt(btn.dataset.step, 10));
+          });
+        });
+      }
+
+      document.documentElement.classList.add('js');
+      select(0);
+    }
+
+    /* ---- Copy fallback --------------------------------------------
+       mailto: fails silently where no mail handler is configured, so
+       the address has to be obtainable without it. */
+    var copy = document.querySelector('.copy');
+
+    if (copy && navigator.clipboard) {
+      var label = copy.querySelector('.copy-label');
+      var original = label.textContent;
+      var timer = null;
+
+      copy.addEventListener('click', function () {
+        navigator.clipboard.writeText(copy.dataset.email).then(function () {
+          label.textContent = 'Copied';
+          copy.classList.add('is-copied');
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            label.textContent = original;
+            copy.classList.remove('is-copied');
+          }, 2200);
+        });
+      });
+    } else if (copy) {
+      copy.hidden = true;
+    }
+  })();
   </script>
 </body>
 </html>
