@@ -75,6 +75,23 @@ Then `python3 tools-make-plate.py && cp plate-*.webp images/`.
 `plate-amphitheatre.webp` predates the script and has no recipe here; it is in
 git history if it ever needs recovering.
 
+### Country flags
+
+`images/flags/` holds six hand-drawn flags from **Irasutoya**, shown beside the
+"10+ countries" line. They are trimmed of transparent padding, resized to 48px
+tall and saved as webp — 24 KB for the set. The list and order live in
+`_data/site.js` under `countries`; adding one means dropping a matching
+`<code>.webp` into that folder.
+
+The line still reads **"10+"** while showing six. That is deliberate — the
+number stays honest and the flags are examples, so no one counts them and finds
+a contradiction.
+
+Worth knowing before adding more: Irasutoya's terms make commercial use free
+only up to a limited number of illustrations in a single work (20 at the time of
+writing, with 21+ requiring a paid licence). Six is comfortably inside that, but
+check their current terms before turning this into a large set.
+
 ### The form honeypot — do not remove `readonly`
 
 `index.njk` carries a hidden `_gotcha` honeypot field. It **must** keep its

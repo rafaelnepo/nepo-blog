@@ -47,7 +47,9 @@ layout: base.njk
       </p>
       <p class="proof-row">
         <span>100+ conferences, workshops &amp; summits</span>
-        <span>10+ countries</span>
+        <span>10+ countries{% if site.countries %}<span class="flags">{% for c in site.countries %}<img
+            src="/images/flags/{{ c.code }}.webp" width="72" height="48"
+            alt="{{ c.name }}" decoding="async">{% endfor %}</span>{% endif %}</span>
       </p>
     </div>
 

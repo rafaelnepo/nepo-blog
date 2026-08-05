@@ -9,6 +9,18 @@ module.exports = {
   // mailto:, so a missing value can never ship a form that posts nowhere.
   formEndpoint: "https://formspree.io/f/mkjwnbrz",
   location: "Brazil · US · Japan",
+  // Flags shown beside the countries claim, in the one-pager's order.
+  // The line still reads "10+" — these are the ones with illustrations,
+  // not the full count, so naming nine never contradicts the number.
+  // Assets: Irasutoya, trimmed and resized by hand into images/flags/.
+  countries: [
+    { code: "br", name: "Brazil" },
+    { code: "jp", name: "Japan" },
+    { code: "us", name: "United States" },
+    { code: "in", name: "India" },
+    { code: "mx", name: "Mexico" },
+    { code: "au", name: "Australia" }
+  ],
   author: "Rafael Nepô",
   founded: 2018,
   year: new Date().getFullYear(),
