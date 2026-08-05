@@ -37,6 +37,19 @@ There is no `articles/` directory and no `/design-system/` page.
 The inquiry form posts to Formspree. Its endpoint is `site.formEndpoint`; while
 that value is empty the page falls back to the plain email address.
 
+### Background plates
+
+Three engravings from Diderot & d'Alembert's *Encyclopédie* (1751–1772), used as
+CSS masks — the **alpha channel is the ink** and the colour comes from
+`background-color`, so the RGB in those files is irrelevant.
+
+`plate-casse.webp` is cropped from *Imprimerie en Lettres, L'Opération de la
+casse*, Wikimedia Commons, **CC0**. Other scans of the same plate on Commons are
+CC BY-SA 4.0 — avoid them, since share-alike would attach to the site. The
+generator script lives in the session scratchpad; regenerating means thresholding
+luminance to alpha (paper 210, ink 55) and saving webp with `alpha_quality` around
+60, which is what keeps these near 130 KB instead of 300 KB.
+
 ### The form honeypot — do not remove `readonly`
 
 `index.njk` carries a hidden `_gotcha` honeypot field. It **must** keep its
