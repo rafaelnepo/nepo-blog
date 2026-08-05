@@ -226,6 +226,18 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
 
    NOTE: rem here resolves against the 16px root, not the body's clamped
    size, so 1.3rem is 20.8px rather than 1.3x the body text. */
+/* Pushed to the far right of the masthead rule. Sized in em so it tracks
+   the masthead type at every breakpoint, and centred rather than
+   baseline-aligned — a mark has no baseline to sit on. */
+.masthead-logo {
+  margin-left: auto;
+  align-self: center;
+  flex: none;
+  height: 0.95em;
+  width: auto;
+  color: var(--ink-text);
+}
+
 .masthead-name { font-size: clamp(1.3rem, 0.5vw + 1.16rem, 1.62rem); }
 
 .masthead-role {
@@ -598,7 +610,21 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
 @media (max-width: 700px) {
   .stage { padding: var(--space-lg) var(--space-md) var(--space-md); }
 
-  .masthead { margin-bottom: var(--space-lg); }
+  /* The role is too long to share a line here, so flex-wrap would strand
+     the mark on a third row of its own. A two-column grid keeps it top
+     right, beside the name, with the role running full width beneath. */
+  .masthead {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    column-gap: var(--space-sm);
+    row-gap: 6px;
+    margin-bottom: var(--space-lg);
+  }
+
+  .masthead-name { grid-column: 1; }
+  .masthead-logo { grid-column: 2; grid-row: 1; margin-left: 0; }
+  .masthead-role { grid-column: 1 / -1; }
   .title { margin-bottom: var(--space-md); }
   .lede { margin-bottom: var(--space-lg); }
   /* Not tabs on a phone — a stacked list, every description visible.

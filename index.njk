@@ -21,6 +21,17 @@ layout: base.njk
     <div class="masthead">
       <span class="masthead-name">Rafael Nepô</span>
       <span class="masthead-role">Information Architect &amp; Presentation Strategist</span>
+
+      {# The Mee mark, from mee.cc/assets/image/Mee-Logo.svg. Inlined rather
+         than linked: it is four shapes, so a request would cost more than the
+         markup, and inline it can take currentColor instead of shipping a
+         second copy of the file just to change its colour. #}
+      <svg class="masthead-logo" viewBox="0 0 72 22" role="img"
+           aria-label="Mee" fill="currentColor">
+        <rect x="3.55566" y="2.36279" width="25.8759" height="16.875"/>
+        <ellipse cx="40.5529" cy="10.8" rx="8.80881" ry="9"/>
+        <ellipse cx="59.9319" cy="10.8" rx="8.80881" ry="9"/>
+      </svg>
     </div>
 
     <h1 class="title">I turn complexity<br>into clarity.</h1>
