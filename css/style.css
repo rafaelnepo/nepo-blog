@@ -219,23 +219,20 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
   border-bottom: 1px solid rgba(242, 239, 230, 0.14);
 }
 
-/* Phone baseline. NOTE: rem here resolves against the 16px root, not the
-   body's clamped size — 1.3rem is 20.8px, not 1.3x the body text. */
-.masthead-name { font-size: 1.3rem; }
+/* Scales with the viewport rather than sitting at a fixed size, so the
+   masthead keeps its proportion to the headline instead of shrinking
+   into it on wide screens. Kept clearly below the h1 — this is the
+   signature on the work, not the claim.
+
+   NOTE: rem here resolves against the 16px root, not the body's clamped
+   size, so 1.3rem is 20.8px rather than 1.3x the body text. */
+.masthead-name { font-size: clamp(1.3rem, 0.5vw + 1.16rem, 1.62rem); }
 
 .masthead-role {
-  font-size: 1.12rem;
+  font-size: clamp(1.12rem, 0.36vw + 1.02rem, 1.34rem);
   font-style: italic;
   font-weight: 300;
   color: var(--ink-dim);
-}
-
-/* Tablet and up. The masthead carries more weight once there is room for
-   it: it is the signature on the work, and at phone size it was reading
-   as fine print. Still held well below the h1, which is the claim. */
-@media (min-width: 701px) {
-  .masthead-name { font-size: clamp(1.6rem, 0.85vw + 1.3rem, 2.1rem); }
-  .masthead-role { font-size: clamp(1.28rem, 0.5vw + 1.12rem, 1.6rem); }
 }
 
 /* Title ------------------------------------- */
