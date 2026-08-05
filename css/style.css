@@ -219,10 +219,14 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
   border-bottom: 1px solid rgba(242, 239, 230, 0.14);
 }
 
-.masthead-name { font-size: 1.15rem; }
+/* Scales with the viewport rather than sitting at a fixed size, so the
+   masthead keeps its proportion to the headline instead of shrinking
+   into it on wide screens. Kept clearly below the h1 — this is the
+   signature on the work, not the claim. */
+.masthead-name { font-size: clamp(1.3rem, 0.5vw + 1.16rem, 1.62rem); }
 
 .masthead-role {
-  font-size: 1.05rem;
+  font-size: clamp(1.12rem, 0.36vw + 1.02rem, 1.34rem);
   font-style: italic;
   font-weight: 300;
   color: var(--ink-dim);
