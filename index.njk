@@ -86,11 +86,47 @@ layout: base.njk
       </div>
     </section>
 
-    <div class="contact">
-      <a class="email" href="mailto:{{ site.email }}?subject=Working%20together">{{ site.email }}</a>
-      <button class="copy" type="button" data-email="{{ site.email }}">
-        <span class="copy-label">Copy address</span>
-      </button>
+    <div class="contact{% if site.formEndpoint %} contact--with-form{% endif %}">
+      <div class="contact-direct">
+        <a class="email" href="mailto:{{ site.email }}?subject=Working%20together">{{ site.email }}</a>
+        <button class="copy" type="button" data-email="{{ site.email }}">
+          <span class="copy-label">Copy address</span>
+        </button>
+      </div>
+
+      {% if site.formEndpoint %}
+      {# Plain POST by default; the script upgrades it to a background
+         submit so a reply never costs the visitor the page. #}
+      <form class="inquiry" action="{{ site.formEndpoint }}" method="POST"
+            data-fallback="{{ site.email }}">
+        <div class="field-pair">
+          <label class="field">
+            <span class="field-label">Name</span>
+            <input type="text" name="name" maxlength="100" autocomplete="name" required>
+          </label>
+          <label class="field">
+            <span class="field-label">Company</span>
+            <input type="text" name="company" maxlength="100" autocomplete="organization">
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="field-label">Email</span>
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+
+        <label class="field">
+          <span class="field-label">What’s the occasion, and when?</span>
+          <textarea name="occasion" rows="2" maxlength="1000"></textarea>
+        </label>
+
+        {# Formspree's documented honeypot: bots fill it, people never see it. #}
+        <input class="gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <button class="send" type="submit">Send</button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+      {% endif %}
     </div>
 
   </main>

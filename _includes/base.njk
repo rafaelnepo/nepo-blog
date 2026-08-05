@@ -172,6 +172,47 @@
       select(0);
     }
 
+    /* ---- Inquiry form ---------------------------------------------
+       Enhancement only: the form is a real POST and works with this
+       script removed. Here it submits in the background so a reply
+       never costs the visitor the page they are reading. */
+    var inquiry = document.querySelector('.inquiry');
+
+    if (inquiry && window.fetch) {
+      var status = inquiry.querySelector('.form-status');
+      var send = inquiry.querySelector('.send');
+
+      inquiry.addEventListener('submit', function (e) {
+        e.preventDefault();
+        send.disabled = true;
+        status.className = 'form-status';
+        status.textContent = 'Sending…';
+
+        fetch(inquiry.action, {
+          method: 'POST',
+          body: new FormData(inquiry),
+          headers: { Accept: 'application/json' }
+        }).then(function (res) {
+          if (res.ok) {
+            inquiry.reset();
+            status.className = 'form-status is-ok';
+            status.textContent = 'Thank you — I read every one of these myself.';
+          } else {
+            return res.json().then(function (data) {
+              throw new Error((data.errors || []).map(function (x) { return x.message; }).join(', '));
+            });
+          }
+        }).catch(function (err) {
+          status.className = 'form-status is-error';
+          status.textContent = (err && err.message)
+            ? err.message
+            : 'That did not send. Please email ' + inquiry.dataset.fallback + ' instead.';
+        }).then(function () {
+          send.disabled = false;
+        });
+      });
+    }
+
     /* ---- Copy fallback --------------------------------------------
        mailto: fails silently where no mail handler is configured, so
        the address has to be obtainable without it. */

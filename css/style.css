@@ -454,6 +454,118 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
   border-bottom-color: transparent;
 }
 
+/* Inquiry form ------------------------------
+   Sits beside the address on wide screens so the funnel costs
+   height only where there is no room to put it alongside. Fields
+   are ruled, not boxed — same hairline language as the proof block. */
+
+.contact--with-form {
+  display: grid;
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .contact--with-form {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-lg);
+  }
+}
+
+.contact-direct {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.inquiry { display: grid; gap: 11px; }
+
+.field-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+}
+
+.field { display: grid; gap: 2px; }
+
+.field-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.field input,
+.field textarea {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--ink-text);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(242, 239, 230, 0.22);
+  padding: 3px 0;
+  width: 100%;
+  border-radius: 0;
+  transition: border-color var(--transition);
+}
+
+.field textarea { resize: vertical; min-height: 2.8em; }
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-bottom-color: var(--accent);
+}
+
+/* The border already signals focus; this keeps a visible ring for
+   keyboard users without doubling it up on the underline. */
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.gotcha {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.send {
+  justify-self: start;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--on-accent);
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 9px 20px;
+  margin-top: 2px;
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.send:hover,
+.send:focus-visible { background: transparent; color: var(--accent); }
+.send[disabled] { opacity: 0.5; cursor: default; }
+
+.form-status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+  min-height: 1.2em;
+}
+
+.form-status.is-ok { color: var(--accent); }
+.form-status.is-error { color: #ff9d8a; }
+
 /* Colophon ---------------------------------- */
 
 .colophon {
@@ -492,6 +604,7 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
   .tab-sep { display: none; }
   .service-tab { font-size: 1.16rem; }
   .service-panel p { max-width: none; }
+  .field-pair { grid-template-columns: 1fr; }
   .services-arrow { width: 44px; height: 44px; }
 
   .proof { margin-bottom: var(--space-lg); }

@@ -118,8 +118,11 @@ are frequently a layer removed from the executive who will actually be on stage.
 3. **The buyer is de-risking, not discovering.** Every surface answers "can this
    person be trusted with a moment that cannot be redone."
 4. **Never manufacture proof.** The evidence list above is the complete set.
-5. **One conversation, not a funnel.** A single email address is the confirmed
-   conversion. Do not add forms, gates, calendars, or lead capture.
+5. **Two ways in, both ungated.** The email address and a four-field inquiry
+   form (Formspree, notifications to contact@mee.cc) sit side by side. Superseded
+   the earlier "no forms" rule on 2026-08-05 at the user's direction. The spirit
+   still holds: nothing is gated, no calendar, no downloads-for-details, no
+   multi-step qualification. Adding steps needs a fresh decision.
 
 ## Accessibility & Inclusion
 

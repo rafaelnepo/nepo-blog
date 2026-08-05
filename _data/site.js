@@ -5,6 +5,9 @@ module.exports = {
   url: "https://nepo.mee.cc",
   email: "contact@mee.cc",
   entity: "mee.cc",
+  // Formspree endpoint. While empty the page falls back to the plain
+  // mailto:, so a missing value can never ship a form that posts nowhere.
+  formEndpoint: "https://formspree.io/f/mkjwnbrz",
   location: "Brazil · United States · Japan",
   author: "Rafael Nepô",
   founded: 2018,
