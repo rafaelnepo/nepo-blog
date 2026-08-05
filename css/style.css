@@ -455,23 +455,6 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
   border-left: 0;
 }
 
-/* Flags sit on the countries claim rather than replacing it — the line
-   still says 10+, so showing six never reads as a miscount. Sized in em
-   so they track the 12px mono around them. */
-.flags {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  margin-left: 9px;
-  vertical-align: -0.22em;
-}
-
-.flags img {
-  display: block;
-  height: 1.25em;
-  width: auto;
-}
-
 /* Contact ----------------------------------- */
 
 .contact {

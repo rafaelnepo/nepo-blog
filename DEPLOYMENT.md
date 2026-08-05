@@ -77,20 +77,12 @@ git history if it ever needs recovering.
 
 ### Country flags
 
-`images/flags/` holds six hand-drawn flags from **Irasutoya**, shown beside the
-"10+ countries" line. They are trimmed of transparent padding, resized to 48px
-tall and saved as webp — 24 KB for the set. The list and order live in
-`_data/site.js` under `countries`; adding one means dropping a matching
-`<code>.webp` into that folder.
-
-The line still reads **"10+"** while showing six. That is deliberate — the
-number stays honest and the flags are examples, so no one counts them and finds
-a contradiction.
-
-Worth knowing before adding more: Irasutoya's terms make commercial use free
-only up to a limited number of illustrations in a single work (20 at the time of
-writing, with 21+ requiring a paid licence). Six is comfortably inside that, but
-check their current terms before turning this into a large set.
+The countries claim used to carry six hand-drawn Irasutoya flags in
+`images/flags/`, keyed off a `countries` list in `_data/site.js`. Both are gone
+— the line is now plain text ("Flown in for events in 10+ countries"). The assets
+and the recipe are in git history if the idea ever comes back; note that
+Irasutoya's terms cap free commercial use at a limited number of illustrations
+per work (20 at the time of writing), so check their current terms first.
 
 ### The form honeypot — do not remove `readonly`
 
