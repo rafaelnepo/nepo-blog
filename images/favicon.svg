@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" fill="#0b0b09"/>
-  <!-- An arch: the plates' recurring form, and the simplest
-       drawing of a structure built to be passed through. -->
-  <path fill="#FFDC1E" fill-rule="evenodd"
-        d="M5 27V14a11 11 0 0 1 22 0v13h-4V14a7 7 0 0 0-14 0v13Z"/>
-  <rect x="3" y="27" width="26" height="3" fill="#FFDC1E"/>
-</svg>
