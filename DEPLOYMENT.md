@@ -46,8 +46,8 @@ CSS masks — the **alpha channel is the ink** and the colour comes from
 | File | Position | Source | Licence |
 |---|---|---|---|
 | `plate-forme.webp` | left | *Imprimerie en Lettres, Pl. 1* (Musée Carnavalet) | CC0 |
-| `plate-typecase.webp` | right | *Imprimerie, Casse* via Commons / Gallica (BnF) | **CC BY-SA 4.0** |
-| `plate-arch.webp` | bottom right | *Encyclopédie* | public domain |
+| `plate-typecase.webp` | upper right | *Imprimerie, Casse* via Commons / Gallica (BnF) | **CC BY-SA 4.0** |
+| `plate-amphitheatre.webp` | bottom right | *Encyclopédie* | public domain |
 
 **`plate-typecase.webp` carries an attribution obligation.** The colophon credit
 in `index.njk` naming Wikimedia Commons, Gallica and linking CC BY-SA 4.0 is a
@@ -55,19 +55,25 @@ licence condition, not decoration — removing it while that plate is in use put
 the site out of compliance. The 1751 engraving itself is public domain; the
 claim is on the scan.
 
-Processing note: the scan carries a red library accession stamp at roughly
-(57, 1027)–(106, 1093) in the original. Greyscale reads it as ink, so it is
-painted out before thresholding.
+Processing note: `plate-typecase.webp` is Fig. 1 only, the case grid. The full
+plate also carries Fig. 2, the case on its stand, but that sits in the
+bottom-right corner the amphitheatre occupies. The full-plate crop and the patch
+that covers a red library accession stamp are both recorded in the script — the
+stamp falls below the current crop, so it needs no patch as things stand.
 
-`tools-make-plate.py` regenerates the asset: it thresholds luminance to alpha
-(paper 210, ink 55) and saves webp with `alpha_quality` near 60, which is what
-keeps the file around 130 KB rather than 300 KB. It expects the source scan
-alongside it as `casse-cc0.jpg` — that original is **not** in the repo, so
-re-download it from Commons first:
+`tools-make-plate.py` regenerates both type plates: it thresholds luminance to
+alpha and saves webp with `alpha_quality` near 60, which is what keeps the files
+near 130 KB rather than 300 KB. The source scans are **not** in the repo —
+download them next to the script first, under these exact names:
 
-```
-https://commons.wikimedia.org/wiki/File:Planche_de_l’Encyclopédie_de_Diderot_et_d’Alembert._Pl._1._Imprimerie_en_Lettres,_L’Opération_de_la_casse,_G.33153.jpg
-```
+| Name | Where |
+|---|---|
+| `casse-cc0.jpg` | [Pl. 1, L'Opération de la casse](https://commons.wikimedia.org/wiki/File:Planche_de_l%E2%80%99Encyclop%C3%A9die_de_Diderot_et_d%E2%80%99Alembert._Pl._1._Imprimerie_en_Lettres,_L%E2%80%99Op%C3%A9ration_de_la_casse,_G.33153.jpg) |
+| `casse-grid.jpg` | [Imprimerie, Casse](https://commons.wikimedia.org/wiki/File:Planche_encyclop%C3%A9die_imprimerie_3_Casse.jpg) |
+
+Then `python3 tools-make-plate.py && cp plate-*.webp images/`.
+`plate-amphitheatre.webp` predates the script and has no recipe here; it is in
+git history if it ever needs recovering.
 
 ### The form honeypot — do not remove `readonly`
 

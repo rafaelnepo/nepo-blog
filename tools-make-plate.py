@@ -56,8 +56,11 @@ make('casse-cc0.jpg', 'plate-forme.webp',
      box=(213, 1990, 3011, 4510), width=860,
      paper=210, ink=55, gamma=1.35, quality=60, alpha_quality=60)
 
-# Right plate: the type case itself. `patch` covers a red accession stamp.
+# Right plate: Fig 1 only — the case grid. The full plate also carried Fig 2,
+# the case on its stand, but that occupied the bottom-right corner the
+# amphitheatre now needs. Cropping above it is what lets both plates read.
+# (Full-plate box was (48, 52, 722, 1108) with patch=[57, 1027, 106, 1093] to
+# cover a red accession stamp; the stamp sits below this crop.)
 make('casse-grid.jpg', 'plate-typecase.webp',
-     box=(48, 52, 722, 1108), width=780,
-     paper=206, ink=60, gamma=1.3, quality=60, alpha_quality=58,
-     patch=[57, 1027, 106, 1093])
+     box=(48, 52, 722, 615), width=780,
+     paper=206, ink=60, gamma=1.3, quality=60, alpha_quality=58)

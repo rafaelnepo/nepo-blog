@@ -268,30 +268,6 @@
       });
     }
 
-    /* ---- Copy fallback --------------------------------------------
-       mailto: fails silently where no mail handler is configured, so
-       the address has to be obtainable without it. */
-    var copy = document.querySelector('.copy');
-
-    if (copy && navigator.clipboard) {
-      var label = copy.querySelector('.copy-label');
-      var original = label.textContent;
-      var timer = null;
-
-      copy.addEventListener('click', function () {
-        navigator.clipboard.writeText(copy.dataset.email).then(function () {
-          label.textContent = 'Copied';
-          copy.classList.add('is-copied');
-          clearTimeout(timer);
-          timer = setTimeout(function () {
-            label.textContent = original;
-            copy.classList.remove('is-copied');
-          }, 2200);
-        });
-      });
-    } else if (copy) {
-      copy.hidden = true;
-    }
   })();
   </script>
 </body>

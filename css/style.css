@@ -115,24 +115,26 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
 .plate--typecase {
   --d: 42;
   --s: 1;
-  right: -6%;
-  top: 4%;
-  width: min(46vw, 620px);
-  aspect-ratio: 780 / 1222;
+  right: 13%;
+  top: 8%;
+  width: min(44vw, 600px);
+  aspect-ratio: 780 / 652;
   background-color: #cfcabb;
   opacity: 0.24;
   --plate: url('/images/plate-typecase.webp');
 }
 
-.plate--arch {
+/* The amphitheatre, bottom right: a place built to be addressed from.
+   The case above says how a message is set; this says who it is set for. */
+.plate--amphitheatre {
   --d: 30;
-  right: 4%;
-  bottom: -4%;
-  width: min(34vw, 470px);
-  aspect-ratio: 509 / 475;
+  right: 0%;
+  bottom: -2%;
+  width: min(42vw, 560px);
+  aspect-ratio: 760 / 581;
   background-color: #b9b3a3;
-  opacity: 0.16;
-  --plate: url('/images/plate-arch.webp');
+  opacity: 0.19;
+  --plate: url('/images/plate-amphitheatre.webp');
 }
 
 /* The type layer: sorts, composing stick and a locked-up forme, from the
@@ -431,50 +433,22 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
   color: var(--on-accent);
 }
 
-/* Copy affordance: the mailto: is the primary path, but it dies
-   silently on machines with no mail handler. This is the fallback. */
-.copy {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-  background: none;
-  border: 0;
-  border-bottom: 1px solid rgba(157, 152, 138, 0.35);
-  padding: 2px 0;
-  cursor: pointer;
-  transition: color var(--transition), border-color var(--transition);
-}
-
-.copy:hover,
-.copy:focus-visible {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
-}
-
-.copy.is-copied {
-  color: var(--accent);
-  border-bottom-color: transparent;
-}
-
 /* Inquiry form ------------------------------
-   Sits beside the address on wide screens so the funnel costs
-   height only where there is no room to put it alongside. Fields
-   are ruled, not boxed — same hairline language as the proof block. */
+   The only contact affordance on the page. Fields are ruled, not
+   boxed — same hairline language as the proof block. */
 
+/* One column, left edge flush with the rest of the content. The form was
+   previously the right half of a two-column block that also held the
+   address; with the address gone there is nothing to sit beside. */
 .contact--with-form {
   display: grid;
   gap: var(--space-lg);
   align-items: start;
 }
 
-@media (min-width: 900px) {
-  .contact--with-form {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--space-lg);
-  }
-}
+/* Held well short of the 1100px content width — full-bleed rules under
+   four short fields read as a table, not a form. */
+.contact--with-form .inquiry { max-width: 620px; }
 
 .contact-direct {
   display: flex;
@@ -685,8 +659,8 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
     opacity: 0.55;
   }
 
-  .plate--typecase { width: 104vw; right: -30%; top: 3%; opacity: 0.12; }
-  .plate--arch { width: 62vw; right: -12%; bottom: 2%; opacity: 0.09; }
+  .plate--typecase { width: 100vw; right: -22%; top: 4%; opacity: 0.12; }
+  .plate--amphitheatre { width: 78vw; right: -14%; bottom: 1%; opacity: 0.1; }
   .plate--forme { width: 92vw; left: -24%; top: 2%; opacity: 0.13; }
 
   .colophon { margin-top: var(--space-lg); }
