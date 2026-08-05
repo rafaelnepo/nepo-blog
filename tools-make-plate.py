@@ -1,52 +1,63 @@
-"""Turn an Encyclopedie scan into an alpha-only plate asset.
+"""Rebuild the background plate assets from their source scans.
 
 The page uses these images as CSS masks: the alpha channel IS the ink, and
-the colour comes from background-color. So RGB is irrelevant; only the
-alpha matters, and it has to be clean — paper grain left in the alpha
-reads as haze once the plate is tinted and scaled up.
+the colour comes from background-color. RGB is irrelevant; only alpha
+matters, and it has to be clean — paper grain left in the alpha reads as
+haze once the plate is tinted and scaled up.
+
+Source scans are NOT in the repo. Download them next to this script first:
+
+  casse-cc0.jpg   Pl. 1, Imprimerie en Lettres, L'Operation de la casse
+                  Musee Carnavalet via Wikimedia Commons, CC0
+  casse-grid.jpg  Imprimerie, Casse (the compositor's type case)
+                  Commons / Gallica (BnF), CC BY-SA 4.0 - see DEPLOYMENT.md,
+                  this one obliges the colophon credit
+
+Then: python3 tools-make-plate.py && cp plate-*.webp images/
 """
-from PIL import Image, ImageOps
-import sys
-
-SRC = 'casse-cc0.jpg'
+from PIL import Image, ImageDraw
 
 
-def make(name, box, width, paper=210, ink=55, gamma=1.35, quality=72):
-    im = Image.open(SRC).convert('L')
-    if box:
-        im = im.crop(box)
+def make(src, out_name, box, width, paper, ink, gamma, quality, alpha_quality,
+         patch=None):
+    im = Image.open(src).convert('L')
 
-    # Normalise: everything at or above `paper` becomes fully transparent,
-    # everything at or below `ink` fully opaque, linear in between.
-    lut = []
-    for v in range(256):
-        if v >= paper:
-            a = 0.0
-        elif v <= ink:
-            a = 1.0
-        else:
-            a = (paper - v) / (paper - ink)
-        lut.append(int(round((a ** gamma) * 255)))
+    # Anything painted out has to go before thresholding — greyscale turns a
+    # coloured library stamp into ink like any other mark.
+    if patch:
+        ImageDraw.Draw(im).rectangle(patch, fill=232)
+
+    im = im.crop(box)
+
+    # Normalise: at or above `paper` is fully transparent, at or below `ink`
+    # fully opaque, linear between. gamma bends the midtones off the paper.
+    lut = [0 if v >= paper else 255 if v <= ink else
+           int(round((((paper - v) / (paper - ink)) ** gamma) * 255))
+           for v in range(256)]
     alpha = im.point(lut)
 
-    h = int(round(alpha.height * (width / alpha.width)))
-    alpha = alpha.resize((width, h), Image.LANCZOS)
+    alpha = alpha.resize((width, round(alpha.height * (width / alpha.width))),
+                         Image.LANCZOS)
 
     out = Image.new('RGBA', alpha.size, (255, 255, 255, 0))
     out.putalpha(alpha)
-    path = f'plate-{name}.webp'
-    out.save(path, 'WEBP', quality=quality, method=6)
-
-    px = alpha.load()
-    lit = sum(1 for y in range(0, h, 7) for x in range(0, width, 7) if px[x, y] > 30)
-    total = len(range(0, h, 7)) * len(range(0, width, 7))
-    print(f'{path:28} {width}x{h}  ink {lit/total:5.1%}')
-    return path
+    # alpha_quality is what keeps these near 150 KB instead of 300 KB. Dense
+    # engraved hatching is expensive to store losslessly and costs nothing
+    # visible at background opacity.
+    out.save(out_name, 'WEBP', quality=quality, alpha_quality=alpha_quality,
+             method=6)
+    print(f'{out_name:24} {alpha.size[0]}x{alpha.size[1]}')
 
 
-# Coordinates measured on the 900x1400 render, scaled by 3.543 to the original.
-# All crops sit INSIDE the engraved border; a hard rectangle would fight the
-# feather mask that dissolves each plate's edge.
-make('sorts',   (319, 2002, 2976, 2640), 1200)   # Fig 4  - the individual type sorts
-make('forme',   (390, 3330, 2834, 4510), 1200)   # Fig 6  - the composed forme
-make('figures', (213, 1990, 3011, 4510), 1000)   # Fig 4-6 stacked
+# Left plate: Fig 4-6 — type sorts, composing stick, composed forme. Cropped
+# inside the engraved border, which would otherwise fight the feather mask
+# that dissolves each plate's edge.
+make('casse-cc0.jpg', 'plate-forme.webp',
+     box=(213, 1990, 3011, 4510), width=860,
+     paper=210, ink=55, gamma=1.35, quality=60, alpha_quality=60)
+
+# Right plate: the type case itself. `patch` covers a red accession stamp.
+make('casse-grid.jpg', 'plate-typecase.webp',
+     box=(48, 52, 722, 1108), width=780,
+     paper=206, ink=60, gamma=1.3, quality=60, alpha_quality=58,
+     patch=[57, 1027, 106, 1093])

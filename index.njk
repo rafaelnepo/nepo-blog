@@ -3,11 +3,13 @@ layout: base.njk
 ---
 <div class="stage">
 
-  {# Diderot & d'Alembert, Encyclopédie (1751–1772), public domain.
-     Ink extracted to alpha; tinted and parallaxed in CSS. #}
+  {# Diderot & d'Alembert, Encyclopédie (1751–1772). Ink extracted to alpha;
+     tinted and parallaxed in CSS. The engravings are public domain, but the
+     typecase SCAN is CC BY-SA 4.0 — the colophon credit is a licence
+     condition, not decoration. Do not remove it while that plate is in use. #}
   <div class="plates" aria-hidden="true">
-    <div class="plate plate--casse"        data-depth="0.018"></div>
-    <div class="plate plate--amphitheatre" data-depth="0.042"></div>
+    <div class="plate plate--forme"        data-depth="0.018"></div>
+    <div class="plate plate--typecase"     data-depth="0.042"></div>
     <div class="plate plate--arch"         data-depth="0.030"></div>
   </div>
 
@@ -137,7 +139,11 @@ layout: base.njk
 
   <footer class="colophon">
     <p>© {{ site.founded }}–{{ site.yearShort }} {{ site.entity }} · {{ site.location }}</p>
-    <p class="credit">Illustrations — plates from Diderot &amp; d’Alembert’s <i>Encyclopédie</i>, 1751–1772</p>
+    <p class="credit">Illustrations — plates from Diderot &amp; d’Alembert’s
+      <i>Encyclopédie</i>, 1751–1772. Type case via
+      <a href="https://commons.wikimedia.org/wiki/File:Planche_encyclop%C3%A9die_imprimerie_3_Casse.jpg">Wikimedia
+      Commons</a> / Gallica (BnF),
+      <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></p>
   </footer>
 
 </div>

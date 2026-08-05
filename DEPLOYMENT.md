@@ -43,9 +43,21 @@ Three engravings from Diderot & d'Alembert's *Encyclopédie* (1751–1772), used
 CSS masks — the **alpha channel is the ink** and the colour comes from
 `background-color`, so the RGB in those files is irrelevant.
 
-`plate-casse.webp` is cropped from *Imprimerie en Lettres, L'Opération de la
-casse*, Wikimedia Commons, **CC0**. Other scans of the same plate on Commons are
-CC BY-SA 4.0 — avoid them, since share-alike would attach to the site.
+| File | Position | Source | Licence |
+|---|---|---|---|
+| `plate-forme.webp` | left | *Imprimerie en Lettres, Pl. 1* (Musée Carnavalet) | CC0 |
+| `plate-typecase.webp` | right | *Imprimerie, Casse* via Commons / Gallica (BnF) | **CC BY-SA 4.0** |
+| `plate-arch.webp` | bottom right | *Encyclopédie* | public domain |
+
+**`plate-typecase.webp` carries an attribution obligation.** The colophon credit
+in `index.njk` naming Wikimedia Commons, Gallica and linking CC BY-SA 4.0 is a
+licence condition, not decoration — removing it while that plate is in use puts
+the site out of compliance. The 1751 engraving itself is public domain; the
+claim is on the scan.
+
+Processing note: the scan carries a red library accession stamp at roughly
+(57, 1027)–(106, 1093) in the original. Greyscale reads it as ink, so it is
+painted out before thresholding.
 
 `tools-make-plate.py` regenerates the asset: it thresholds luminance to alpha
 (paper 210, ink 55) and saves webp with `alpha_quality` near 60, which is what
