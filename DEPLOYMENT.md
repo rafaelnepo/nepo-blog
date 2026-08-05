@@ -1,152 +1,171 @@
-# DEPLOYMENT CHECKLIST — Go Live Today
+# DEPLOYMENT — nepo.mee.cc
 
-## Step 1: Create GitHub Repository (5 min)
+Reference for how this site builds, deploys, and authenticates mail.
+Last verified 2026-08-05.
 
-1. Go to https://github.com/new
-2. Create a **private** repo called `nepo-blog`
-3. Do NOT initialize with README (we have one)
-4. Click "Create repository"
+> **History:** this file was originally a go-live checklist for a multi-article
+> blog deployed on Cloudflare Pages. Neither is true any more — the site is a
+> single-screen splash page on GitHub Pages, and its DNS is on Route 53. The
+> stale instructions were removed rather than left in place, because a wrong
+> deployment doc is worse than none: it reads as authoritative and sends you to
+> the wrong console.
 
-## Step 2: Push Code to GitHub (5 min)
+## How it deploys
 
-In your terminal, from the `nepo-blog` directory:
+Push to `main` → GitHub Actions builds → GitHub Pages serves. There is nothing
+to run by hand.
+
+- Workflow: `.github/workflows/` (`Deploy to GitHub Pages`)
+- Build: `npm run build` → `eleventy` → `_site/`
+- Custom domain: `CNAME` file contains `nepo.mee.cc`
+- Typical deploy: ~40 seconds
 
 ```bash
-git init
-git add .
-git commit -m "Initial commit: blog setup with design system"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/nepo-blog.git
-git push -u origin main
+git push                       # that's the whole deploy
+gh run list --limit 1          # check status
 ```
 
-Replace `YOUR-USERNAME` with your actual GitHub username.
+No Cloudflare Pages project, no `CLOUDFLARE_API_TOKEN` secret. Both were part of
+the old setup and are gone.
 
-## Step 3: Set Up Cloudflare Pages (10 min)
+## The site
 
-1. **Go to Cloudflare Dashboard** → Pages
-2. Click **"Create a project"** → **"Connect to Git"**
-3. Authorize GitHub if prompted
-4. Select the `nepo-blog` repository
-5. Click **"Begin setup"**
+One page — `index.njk`, rendered by Eleventy with `_includes/base.njk`. Content
+and configuration live in `_data/site.js` (address, Formspree endpoint, year).
+There is no `articles/` directory and no `/design-system/` page.
 
-### Build Configuration:
-- **Framework preset:** None (custom)
-- **Build command:** `npm run build`
-- **Build output directory:** `_site`
-- **Environment variables:** (leave empty for now)
+The inquiry form posts to Formspree. Its endpoint is `site.formEndpoint`; while
+that value is empty the page falls back to the plain email address.
 
-Click **"Save and Deploy"**
+### The form honeypot — do not remove `readonly`
 
-Cloudflare will build and deploy. This takes ~2-3 minutes. You'll get a temporary URL like `nepo-blog.pages.dev`.
+`index.njk` carries a hidden `_gotcha` honeypot field. It **must** keep its
+`readonly` attribute, and `_includes/base.njk` clears it before submitting.
 
-## Step 4: Set Up Custom Domain (5 min)
+Password managers ignore `autocomplete="off"` and will fill that field. When
+they do, Formspree discards the submission as spam **while returning success to
+the visitor** — so the sender sees "Thank you" and the message reaches nobody.
+This happened in production on 2026-08-05. Both guards exist to prevent it;
+removing either brings the bug back silently.
 
-### Option A: Domain is already on Cloudflare
+## DNS
 
-If `mee.cc` is managed by Cloudflare:
+`mee.cc` is hosted in **AWS Route 53**. The site record:
 
-1. **In Cloudflare Dashboard** → Websites → `mee.cc` → DNS
-2. Click **"+ Add record"**
-3. Fill in:
-   - **Type:** CNAME
-   - **Name:** nepo
-   - **Target:** nepo-blog.pages.dev
-   - **Proxy status:** Proxied (orange cloud)
-4. Click **"Save"**
+| Name | Type | Value |
+|---|---|---|
+| `nepo` | CNAME | `rafaelnepo.github.io` |
 
-Wait 5–10 minutes for DNS to propagate. Then visit `https://nepo.mee.cc` ✓
+## Email Authentication for `mee.cc` (set up 2026-08-05)
 
-### Option B: Domain is at another registrar (GoDaddy, Namecheap, etc.)
+DNS for `mee.cc` is hosted on **AWS Route 53**, not Cloudflare. Mail is Google
+Workspace. Before this was set up, `contact@mee.cc` sent completely
+unauthenticated mail — no SPF, no DKIM, no DMARC — which meant replies to
+inquiries were a coin flip on reaching the inbox.
 
-1. Point `mee.cc` nameservers to Cloudflare (Cloudflare will show you how)
-2. OR create a CNAME record in your registrar:
-   - **Name:** nepo
-   - **Target:** nepo-blog.pages.dev
+### The three records
 
-Then do Step 4A above.
+All are TXT records in the `mee.cc` hosted zone. Route 53 requires values to be
+wrapped in double quotes.
 
-## Step 5: Test Everything (5 min)
+| Name | Value |
+|---|---|
+| `@` (apex) | `"v=spf1 include:_spf.google.com ~all"` |
+| `google._domainkey` | the DKIM key, split — see below |
+| `_dmarc` | `"v=DMARC1; p=none; rua=mailto:contact@mee.cc; fo=1"` |
 
-1. Visit `https://nepo.mee.cc` in your browser
-2. Verify homepage loads with two sample articles
-3. Click an article title → read full article
-4. Check Design System page at `/design-system/`
-5. Verify responsive on mobile (shrink browser window)
+The apex TXT record also holds the `google-site-verification=…` value on its own
+line. **Do not remove it** — that is a separate value, not part of the SPF record.
 
-## Step 6: Configure GitHub Actions (Optional but Recommended)
+### The DKIM splitting trap
 
-So that future commits auto-deploy:
+A 2048-bit DKIM value is ~410 characters. Route 53 caps each quoted string at
+255 **including the quotes**, so the key must be split into two quoted strings
+separated by a space, **on one line**:
 
-1. In GitHub repo settings → Secrets and variables → Actions
-2. Click **"New repository secret"**
-3. Add `CLOUDFLARE_API_TOKEN`:
-   - Get from Cloudflare Dashboard → Account → API Tokens
-   - Create new token with "Cloudflare Pages" permissions
-   - Copy and paste into GitHub
-4. Add `CLOUDFLARE_ACCOUNT_ID`:
-   - Found in Cloudflare Dashboard → Account settings
+```
+"v=DKIM1; k=rsa; p=FIRST-CHUNK" "SECOND-CHUNK"
+```
 
-Now every time you `git push`, the site rebuilds automatically. ✓
+Chunks of 205 characters work comfortably. Two traps here:
 
-## Publishing Your First Real Article
+- Putting the chunks on **separate lines** creates two independent TXT records
+  and DKIM fails with no useful error.
+- Chunks of exactly 255 are rejected as "Value is too big" — the console counts
+  the quotes.
 
-1. **Write in IA Writer** (offline, as usual)
-2. **Save to:** `articles/003-your-article-slug.md`
-3. **Add YAML front matter** at top:
-   ```yaml
-   ---
-   title: "Article Title"
-   date: 2026-06-26
-   author: Nepô
-   tags: ["Tag1", "Tag2"]
-   excerpt: "Brief summary for homepage"
-   ---
-   ```
-4. **Write in markdown** below front matter
-5. **Commit and push:**
-   ```bash
-   git add articles/003-your-article-slug.md
-   git commit -m "Add article: Article Title"
-   git push
-   ```
-6. **Wait ~2 minutes** → Site redeploys automatically
-7. **Check nepo.mee.cc** → New article is live with "LATEST" label ✓
+To regenerate the key: Admin Console → Apps → Google Workspace → Gmail →
+Authenticate email → 2048-bit, prefix `google`. Then click **START
+AUTHENTICATION** — the DNS record alone does nothing until that switch is on.
+
+### Verifying
+
+Query AWS directly to bypass DNS caching:
+
+```bash
+NS=$(dig +short NS mee.cc | head -1)
+dig +short TXT mee.cc @$NS              # SPF + site verification
+dig +short TXT _dmarc.mee.cc @$NS       # DMARC
+dig +short TXT google._domainkey.mee.cc @$NS   # DKIM
+```
+
+Then send a real message to Gmail and use **Show original**. All three should
+say PASS — but check *which domain* DKIM signed with. If it reads
+`…gappssmtp.com`, Google is still using its default key and the custom one is
+not active yet. It must read `mee.cc`.
+
+That distinction matters: a `gappssmtp.com` signature does not align with
+`mee.cc`, so DMARC would be passing on SPF alone. **SPF breaks when mail is
+forwarded; DKIM survives it.** Without aligned DKIM, any forwarded reply fails
+DMARC.
+
+### Tightening the policy — not before ~2026-09-02
+
+`p=none` means "report, don't block." DMARC aggregate reports arrive at
+`contact@mee.cc` as XML attachments listing every source sending as `mee.cc`.
+After a few weeks of clean reports, tighten in order:
+
+```
+p=none  →  p=quarantine  →  p=reject
+```
+
+**Do not skip ahead.** If some forgotten service sends as `mee.cc` and is not in
+the SPF record, `p=reject` makes that mail vanish silently. The reports exist to
+find those senders first.
+
+### Gmail filter
+
+Formspree notifications land in spam by default. In Gmail: Settings → Filters
+and Blocked Addresses → From `formspree.io` → **Never send it to Spam**. Without
+this, inquiries are silently missed — the failure mode this whole page exists to
+prevent.
 
 ## Troubleshooting
 
-### "Build failed" error in Cloudflare
-- Check the build logs in Cloudflare Pages dashboard
-- Usually it's a YAML syntax error in the article front matter
-- Common issue: unquoted colons in titles (use `"Title: With Colon"`)
+### Build failed
 
-### Domain not resolving
-- Wait 10-15 minutes (DNS propagation)
-- Clear browser cache: Cmd+Shift+Delete (Chrome) or Cmd+Opt+E (Firefox)
-- Check DNS records in Cloudflare are correct
+Check the run: `gh run view --log-failed`. Usually a Nunjucks syntax error in
+`index.njk` or `_includes/base.njk`.
+
+### Change not showing on the live site
+
+Confirm the deploy finished (`gh run list --limit 1`), then hard-reload —
+`Cmd+Shift+R`. GitHub Pages also caches at the edge for a few minutes.
+
+### Form submissions not arriving
+
+In order of likelihood: the Gmail filter above is missing and they are in spam;
+the honeypot is being tripped (check the Formspree dashboard for
+`_status error`); or the Formspree endpoint in `_data/site.js` is wrong.
 
 ### Images not showing
-- Use `/images/filename.jpg` (leading slash required)
-- Place actual image files in `images/` folder
-- Commit images to GitHub: `git add images/`
 
-## That's It!
+Use a leading slash — `/images/filename.jpg`. Files live in `images/`.
 
-Your blog is now:
-- **Live at nepo.mee.cc**
-- **Version controlled on GitHub**
-- **Auto-deployed via Cloudflare Pages**
-- **Ready for new articles**
+## Rollback
 
-From here, it's just:
-1. Write in IA Writer
-2. Save to `articles/`
-3. Commit & push
-4. Done.
+The previous multi-article site is preserved:
 
-No build commands, no complex deployment. Pure simplicity.
-
----
-
-**Questions?** Check README.md for detailed documentation.  
-**Ready?** Let's deploy. What's your GitHub username?
+- branch `archive/full-site`
+- tag `v1-full-site`
+- local copy `~/Desktop/nepo-blog-backup-2026-08-05/`
