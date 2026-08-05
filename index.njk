@@ -38,9 +38,10 @@ layout: base.njk
       </p>
     </div>
 
-    {# Tabs, not a carousel: all three titles stay visible so the offer is
-       never hidden — only the detail swaps. Without JS every panel renders
-       in normal flow, so nothing here depends on scripting. #}
+    {# Tabs on wide screens, a stacked list on phones — all three titles
+       stay visible either way, so the offer is never hidden. The tab roles
+       are added by JS and only while tabs are actually driving; without
+       scripting every panel renders in normal flow. #}
     <section class="services" aria-labelledby="services-heading">
       <h2 id="services-heading" class="visually-hidden">Areas of work</h2>
 
@@ -48,14 +49,14 @@ layout: base.njk
         {# Separators are their own aria-hidden elements rather than
            pseudo-elements on the buttons, so "+" never leaks into a
            tab's accessible name. #}
-        <div class="services-tabs" role="tablist" aria-label="Areas of work">
-          <button class="service-tab" role="tab" id="tab-events"
+        <div class="services-tabs">
+          <button class="service-tab" id="tab-events"
                   aria-controls="panel-events">Live Events</button>
           <span class="tab-sep" aria-hidden="true">+</span>
-          <button class="service-tab" role="tab" id="tab-strategy"
+          <button class="service-tab" id="tab-strategy"
                   aria-controls="panel-strategy">Strategy &amp; Content</button>
           <span class="tab-sep" aria-hidden="true">+</span>
-          <button class="service-tab" role="tab" id="tab-speaking"
+          <button class="service-tab" id="tab-speaking"
                   aria-controls="panel-speaking">Speaking &amp; Training</button>
         </div>
 
@@ -68,17 +69,17 @@ layout: base.njk
       </div>
 
       <div class="service-panels">
-        <div class="service-panel" role="tabpanel" id="panel-events" aria-labelledby="tab-events">
+        <div class="service-panel" id="panel-events" aria-labelledby="tab-events">
           <p>On site — presentation design and information architecture, with
             the rehearsals senior leadership needs before they shape how an
             industry thinks.</p>
         </div>
-        <div class="service-panel" role="tabpanel" id="panel-strategy" aria-labelledby="tab-strategy">
+        <div class="service-panel" id="panel-strategy" aria-labelledby="tab-strategy">
           <p>The structure of the argument — research, review and rehearsals on
             your schedule, remote or wherever the week puts you. Settled before
             anyone opens a deck.</p>
         </div>
-        <div class="service-panel" role="tabpanel" id="panel-speaking" aria-labelledby="tab-speaking">
+        <div class="service-panel" id="panel-speaking" aria-labelledby="tab-speaking">
           <p>Keynotes, and in-company workshops that prepare your sales and
             training teams for the room — until they are able to do this
             without me.</p>
@@ -135,8 +136,8 @@ layout: base.njk
   </main>
 
   <footer class="colophon">
-    <p>© {{ site.founded }}–{{ site.year }} {{ site.entity }} · {{ site.location }}</p>
-    <p class="credit">Plates from Diderot &amp; d’Alembert’s <i>Encyclopédie</i>, 1751–1772</p>
+    <p>© {{ site.founded }}–{{ site.yearShort }} {{ site.entity }} · {{ site.location }}</p>
+    <p class="credit">Illustrations — plates from Diderot &amp; d’Alembert’s <i>Encyclopédie</i>, 1751–1772</p>
   </footer>
 
 </div>

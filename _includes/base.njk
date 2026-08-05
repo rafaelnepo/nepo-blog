@@ -128,9 +128,11 @@
     var tablist = document.querySelector('.services-tabs');
 
     if (tablist) {
-      var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+      var tabs = Array.prototype.slice.call(tablist.querySelectorAll('.service-tab'));
       var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
+      var nav = document.querySelector('.services-nav');
       var current = 0;
+      var tabbed = false;
 
       function select(i, focus) {
         current = (i + tabs.length) % tabs.length;
@@ -143,12 +145,52 @@
         if (focus) tabs[current].focus();
       }
 
+      /* Tabs are a wide-screen affordance. On a phone the three areas
+         read as a stacked list instead — every description visible,
+         nothing behind a tap. The roles are applied and removed with the
+         viewport rather than asserted once, because a phone rotated to
+         landscape crosses this breakpoint. */
+      function enterTabMode() {
+        tabbed = true;
+        tablist.setAttribute('role', 'tablist');
+        tablist.setAttribute('aria-label', 'Areas of work');
+        tabs.forEach(function (tab) {
+          tab.setAttribute('role', 'tab');
+          tab.removeAttribute('aria-level');
+        });
+        panels.forEach(function (p) { p.setAttribute('role', 'tabpanel'); });
+        if (nav) nav.hidden = false;
+        document.documentElement.classList.add('js-tabs');
+        select(current);
+      }
+
+      function exitTabMode() {
+        tabbed = false;
+        tablist.removeAttribute('role');
+        tablist.removeAttribute('aria-label');
+        /* Buttons that no longer do anything should not announce or
+           focus as buttons; at this width they are simply headings. */
+        tabs.forEach(function (tab) {
+          tab.setAttribute('role', 'heading');
+          tab.setAttribute('aria-level', '3');
+          tab.removeAttribute('aria-selected');
+          tab.tabIndex = -1;
+        });
+        panels.forEach(function (p) {
+          p.hidden = false;
+          p.removeAttribute('role');
+        });
+        if (nav) nav.hidden = true;
+        document.documentElement.classList.remove('js-tabs');
+      }
+
       tabs.forEach(function (tab, n) {
-        tab.addEventListener('click', function () { select(n); });
+        tab.addEventListener('click', function () { if (tabbed) select(n); });
       });
 
       /* WAI-ARIA tabs keyboard contract. */
       tablist.addEventListener('keydown', function (e) {
+        if (!tabbed) return;
         var k = e.key;
         if (k === 'ArrowRight') { select(current + 1, true); }
         else if (k === 'ArrowLeft') { select(current - 1, true); }
@@ -158,9 +200,7 @@
         e.preventDefault();
       });
 
-      var nav = document.querySelector('.services-nav');
       if (nav) {
-        nav.hidden = false;
         nav.querySelectorAll('.services-arrow').forEach(function (btn) {
           btn.addEventListener('click', function () {
             select(current + parseInt(btn.dataset.step, 10));
@@ -168,8 +208,17 @@
         });
       }
 
+      var narrow = window.matchMedia('(max-width: 700px)');
+
+      function applyMode() {
+        if (narrow.matches) { exitTabMode(); } else { enterTabMode(); }
+      }
+
+      if (narrow.addEventListener) { narrow.addEventListener('change', applyMode); }
+      else if (narrow.addListener) { narrow.addListener(applyMode); }
+
       document.documentElement.classList.add('js');
-      select(0);
+      applyMode();
     }
 
     /* ---- Inquiry form ---------------------------------------------

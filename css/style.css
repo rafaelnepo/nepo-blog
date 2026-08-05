@@ -348,16 +348,17 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
   color: #c6c1b3;
 }
 
-/* Enhanced state only — without JS the panels simply stack and all
-   three descriptions read in normal flow. */
-.js .service-panels { display: grid; }
+/* Tab state only — set when the tab controller is actually driving,
+   which is wide screens with JS. Without it the panels simply stack and
+   all three descriptions read in normal flow. */
+.js-tabs .service-panels { display: grid; }
 
-.js .service-panel {
+.js-tabs .service-panel {
   grid-area: 1 / 1;
   transition: opacity 0.4s ease-out;
 }
 
-.js .service-panel[hidden] {
+.js-tabs .service-panel[hidden] {
   display: block;
   visibility: hidden;
   opacity: 0;
@@ -595,23 +596,70 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
   .masthead { margin-bottom: var(--space-lg); }
   .title { margin-bottom: var(--space-md); }
   .lede { margin-bottom: var(--space-lg); }
-  .services-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-sm);
-  }
-  .services-tabs { flex-direction: column; gap: 2px; }
+  /* Not tabs on a phone — a stacked list, every description visible.
+     The wrappers collapse to display:contents so each title and the text
+     it belongs to can sit next to each other as siblings; order pairs
+     them up. Nothing is behind a tap, so nothing is missed. */
+  .services { display: flex; flex-direction: column; }
+  .services-bar,
+  .services-tabs,
+  .service-panels { display: contents; }
+  .services-nav { display: none; }
   .tab-sep { display: none; }
-  .service-tab { font-size: 1.16rem; }
+
+  #services-heading { order: 0; }
+  #tab-events     { order: 1; }
+  #panel-events   { order: 2; }
+  #tab-strategy   { order: 3; }
+  #panel-strategy { order: 4; }
+  #tab-speaking   { order: 5; }
+  #panel-speaking { order: 6; }
+
+  /* Headings here, not controls: the JS strips the button semantics at
+     this width, so the styling drops the affordance to match. */
+  .service-tab {
+    font-size: 1.16rem;
+    color: var(--ink-text);
+    cursor: default;
+    margin-top: var(--space-md);
+  }
+
+  #tab-events { margin-top: 0; }
+
+  .service-panel { margin-top: 6px; }
   .service-panel p { max-width: none; }
   .field-pair { grid-template-columns: 1fr; }
-  .services-arrow { width: 44px; height: 44px; }
 
   .proof { margin-bottom: var(--space-lg); }
-  .proof-row { gap: 2px var(--space-sm); }
-  .proof-row span { padding-left: var(--space-sm); }
-  /* No room for two columns; the rows stack and the rules come off. */
-  .proof-row span:first-child { padding-left: 0; min-width: 0; }
+
+  /* No room to pair claims across two columns, and the wrapped column
+     rule read as a quote mark rather than a separator. Every claim gets
+     its own line, marked by a chevron. */
+  .proof-row { display: block; }
+
+  /* The two authored rows are one flat list here, so the gap that
+     separated them would read as an arbitrary break. */
+  .proof-row + .proof-row { margin-top: 0; }
+
+  /* :first-child is repeated here deliberately — the desktop rule that
+     strips its indent is more specific than a bare `span`, so without it
+     the chevron lands under the first character. */
+  .proof-row span,
+  .proof-row span:first-child {
+    display: block;
+    position: relative;
+    min-width: 0;
+    padding-left: 1.15em;
+    border-left: 0;
+  }
+
+  .proof-row span::before {
+    content: "\203A";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    opacity: 0.55;
+  }
 
   .plate--amphitheatre { width: 116vw; right: -30%; top: 3%; opacity: 0.13; }
   .plate--arch { width: 62vw; right: -12%; bottom: 2%; opacity: 0.09; }

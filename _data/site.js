@@ -8,8 +8,11 @@ module.exports = {
   // Formspree endpoint. While empty the page falls back to the plain
   // mailto:, so a missing value can never ship a form that posts nowhere.
   formEndpoint: "https://formspree.io/f/mkjwnbrz",
-  location: "Brazil · United States · Japan",
+  location: "Brazil · US · Japan",
   author: "Rafael Nepô",
   founded: 2018,
-  year: new Date().getFullYear()
+  year: new Date().getFullYear(),
+  // Two-digit end of the copyright span — "2018–26" rather than
+  // "2018–2026", which wrapped the colophon onto a second line on phones.
+  yearShort: String(new Date().getFullYear()).slice(-2)
 };
