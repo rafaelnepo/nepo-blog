@@ -363,7 +363,36 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
 }
 
 .service-panels { margin-top: var(--space-sm); }
-.service-panel p { max-width: 74ch; }   /* holds the longest panel to two lines */
+
+/* The description is held to the width of the tab row above it, so a line
+   never runs under the arrows sitting to their right.
+
+   The two columns are laid out here rather than in .services-bar so the
+   panels can share the tabs' column. `width: 0; min-width: 100%` is the
+   trick that makes it work: at zero width the panels contribute nothing
+   to sizing the max-content column, so the column is measured by the
+   tabs alone — then min-width fills whatever the tabs resolved to. */
+@media (min-width: 701px) {
+  .services {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    column-gap: var(--space-lg);
+    align-items: center;
+  }
+
+  .services-bar { display: contents; }
+  .services-tabs { grid-column: 1; grid-row: 1; }
+  .services-nav { grid-column: 2; grid-row: 1; }
+
+  .service-panels {
+    grid-column: 1;
+    grid-row: 2;
+    width: 0;
+    min-width: 100%;
+  }
+
+  .service-panel p { max-width: none; }
+}
 
 .service-panel p {
   font-size: clamp(1.05rem, 0.55vw + 0.92rem, 1.3rem);
