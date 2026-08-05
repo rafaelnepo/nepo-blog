@@ -45,10 +45,17 @@ CSS masks — the **alpha channel is the ink** and the colour comes from
 
 `plate-casse.webp` is cropped from *Imprimerie en Lettres, L'Opération de la
 casse*, Wikimedia Commons, **CC0**. Other scans of the same plate on Commons are
-CC BY-SA 4.0 — avoid them, since share-alike would attach to the site. The
-generator script lives in the session scratchpad; regenerating means thresholding
-luminance to alpha (paper 210, ink 55) and saving webp with `alpha_quality` around
-60, which is what keeps these near 130 KB instead of 300 KB.
+CC BY-SA 4.0 — avoid them, since share-alike would attach to the site.
+
+`tools-make-plate.py` regenerates the asset: it thresholds luminance to alpha
+(paper 210, ink 55) and saves webp with `alpha_quality` near 60, which is what
+keeps the file around 130 KB rather than 300 KB. It expects the source scan
+alongside it as `casse-cc0.jpg` — that original is **not** in the repo, so
+re-download it from Commons first:
+
+```
+https://commons.wikimedia.org/wiki/File:Planche_de_l’Encyclopédie_de_Diderot_et_d’Alembert._Pl._1._Imprimerie_en_Lettres,_L’Opération_de_la_casse,_G.33153.jpg
+```
 
 ### The form honeypot — do not remove `readonly`
 
