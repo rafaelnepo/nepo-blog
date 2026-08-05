@@ -188,6 +188,12 @@
         status.className = 'form-status';
         status.textContent = 'Sending…';
 
+        /* Second guard on the honeypot. Anything in it here came from a
+           password manager, not a person — a bot without JS never runs
+           this, so the trap keeps working on the traffic it is for. */
+        var gotcha = inquiry.querySelector('[name="_gotcha"]');
+        if (gotcha) { gotcha.value = ''; }
+
         fetch(inquiry.action, {
           method: 'POST',
           body: new FormData(inquiry),

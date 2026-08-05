@@ -120,8 +120,11 @@ layout: base.njk
           <textarea name="occasion" rows="2" maxlength="1000"></textarea>
         </label>
 
-        {# Formspree's documented honeypot: bots fill it, people never see it. #}
-        <input class="gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        {# Formspree's documented honeypot: bots fill it, people never see it.
+           readonly is load-bearing — password managers ignore autocomplete="off"
+           and will fill this, which silently spams a real inquiry. #}
+        <input class="gotcha" type="text" name="_gotcha" tabindex="-1"
+               autocomplete="off" aria-hidden="true" readonly>
 
         <button class="send" type="submit">Send</button>
         <p class="form-status" role="status" aria-live="polite"></p>
