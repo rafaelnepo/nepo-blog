@@ -28,6 +28,17 @@ permalink: "{{ locale.path }}index.html"
       <span class="masthead-name">Rafael Nepô</span>
       <span class="masthead-role">{{ t.masthead.role }}</span>
 
+      <nav class="lang-switch" aria-label="{{ t.langSwitch.label }}">
+        {% for l in locales %}
+        {%- if not loop.first %}<span class="lang-sep" aria-hidden="true">·</span>{% endif -%}
+        {% if l.code == locale.code %}
+        <span class="lang-current" aria-current="true">{{ l.label }}</span>
+        {% else %}
+        <a href="{{ l.path }}" data-lang="{{ l.code }}">{{ l.label }}</a>
+        {% endif %}
+        {% endfor %}
+      </nav>
+
       {# The Mee mark, from mee.cc/assets/image/Mee-Logo.svg. Inlined rather
          than linked: it is four shapes, so a request would cost more than the
          markup, and inline it can take currentColor instead of shipping a
@@ -152,20 +163,8 @@ permalink: "{{ locale.path }}index.html"
   </main>
 
   <footer class="colophon">
-    <nav class="lang-switch" aria-label="{{ t.langSwitch.label }}">
-      {% for l in locales %}
-      {%- if not loop.first %}<span class="lang-sep" aria-hidden="true">·</span>{% endif -%}
-      {% if l.code == locale.code %}
-      <span class="lang-current" aria-current="true">{{ l.label }}</span>
-      {% else %}
-      <a href="{{ l.path }}" data-lang="{{ l.code }}">{{ l.label }}</a>
-      {% endif %}
-      {% endfor %}
-    </nav>
-    <div class="colophon-meta">
-      <p>© {{ site.founded }}–{{ site.yearShort }} {{ site.entity }} · {{ t.footer.location }}</p>
-      <p class="credit">{{ t.footer.credit | safe }}</p>
-    </div>
+    <p>© {{ site.founded }}–{{ site.yearShort }} {{ site.entity }} · {{ t.footer.location }}</p>
+    <p class="credit">{{ t.footer.credit | safe }}</p>
   </footer>
 
 </div>
