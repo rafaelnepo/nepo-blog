@@ -438,12 +438,16 @@ html[lang="ja"] .lede { max-width: 25em; }
   color: #c6c1b3;
 }
 
-/* An aside, not part of the pitch — smaller and in the mono voice the
-   site already uses for secondary information (colophon, switcher). */
+/* An aside, not part of the pitch — set apart as a small info box rather
+   than just trailing off the paragraph above it in a different font. Ruled
+   rather than filled, so it reads as the same hairline language as the
+   proof block instead of a foreign "card" component. */
 .service-note {
-  margin-top: var(--space-xs);
+  margin-top: var(--space-sm);
+  padding: 10px 14px;
+  border-left: 2px solid rgba(255, 220, 30, 0.3);
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   letter-spacing: 0.02em;
   line-height: 1.6;
   color: var(--ink-dim);

@@ -99,14 +99,20 @@ permalink: "{{ locale.path }}index.html"
       <div class="service-panels">
         <div class="service-panel" id="panel-events" aria-labelledby="tab-events">
           <p>{{ t.services.events.body | safe }}</p>
+          {% if t.services.events.note %}
+          <p class="service-note">{{ t.services.events.note | safe }}</p>
+          {% endif %}
         </div>
         <div class="service-panel" id="panel-strategy" aria-labelledby="tab-strategy">
           <p>{{ t.services.strategy.body | safe }}</p>
+          {% if t.services.strategy.note %}
+          <p class="service-note">{{ t.services.strategy.note | safe }}</p>
+          {% endif %}
         </div>
         <div class="service-panel" id="panel-speaking" aria-labelledby="tab-speaking">
           <p>{{ t.services.speaking.body | safe }}</p>
           {% if t.services.speaking.note %}
-          <p class="service-note">{{ t.services.speaking.note }}</p>
+          <p class="service-note">{{ t.services.speaking.note | safe }}</p>
           {% endif %}
         </div>
       </div>
