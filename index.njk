@@ -1,6 +1,12 @@
 ---
 layout: base.njk
+pagination:
+  data: locales
+  size: 1
+  alias: locale
+permalink: "{{ locale.path }}index.html"
 ---
+{% set t = i18n[locale.code] %}
 <div class="stage">
 
   {# Diderot & d'Alembert, Encyclopédie (1751–1772). Ink extracted to alpha;
@@ -20,7 +26,7 @@ layout: base.njk
 
     <div class="masthead">
       <span class="masthead-name">Rafael Nepô</span>
-      <span class="masthead-role">Information Architect &amp; Presentation Strategist</span>
+      <span class="masthead-role">{{ t.masthead.role }}</span>
 
       {# The Mee mark, from mee.cc/assets/image/Mee-Logo.svg. Inlined rather
          than linked: it is four shapes, so a request would cost more than the
@@ -34,20 +40,18 @@ layout: base.njk
       </svg>
     </div>
 
-    <h1 class="title">I turn complexity<br>into clarity.</h1>
+    <h1 class="title">{{ t.title | safe }}</h1>
 
-    <p class="lede">Information architecture and presentation strategy — for
-      organizations, and the teams inside them, whose message only gets one
-      chance to land.</p>
+    <p class="lede">{{ t.lede | safe }}</p>
 
     <div class="proof">
       <p class="proof-row">
-        <span>C-suite &amp; senior leadership since 2012</span>
-        <span>Work delivered for Gartner, NVIDIA, Blizzard &amp; others</span>
+        <span>{{ t.proof.row1.a }}</span>
+        <span>{{ t.proof.row1.b }}</span>
       </p>
       <p class="proof-row">
-        <span>100+ conferences, workshops &amp; summits</span>
-        <span>Flown in for events in 10+ countries</span>
+        <span>{{ t.proof.row2.a }}</span>
+        <span>{{ t.proof.row2.b }}</span>
       </p>
     </div>
 
@@ -56,7 +60,7 @@ layout: base.njk
        are added by JS and only while tabs are actually driving; without
        scripting every panel renders in normal flow. #}
     <section class="services" aria-labelledby="services-heading">
-      <h2 id="services-heading" class="visually-hidden">Areas of work</h2>
+      <h2 id="services-heading" class="visually-hidden">{{ t.services.heading }}</h2>
 
       <div class="services-bar">
         {# Separators are their own aria-hidden elements rather than
@@ -64,38 +68,35 @@ layout: base.njk
            tab's accessible name. #}
         <div class="services-tabs">
           <button class="service-tab" id="tab-events"
-                  aria-controls="panel-events">Live Events</button>
+                  aria-controls="panel-events">{{ t.services.events.tab | safe }}</button>
           <span class="tab-sep" aria-hidden="true">+</span>
           <button class="service-tab" id="tab-strategy"
-                  aria-controls="panel-strategy">Strategy &amp; Content</button>
+                  aria-controls="panel-strategy">{{ t.services.strategy.tab | safe }}</button>
           <span class="tab-sep" aria-hidden="true">+</span>
           <button class="service-tab" id="tab-speaking"
-                  aria-controls="panel-speaking">Speaking &amp; Training</button>
+                  aria-controls="panel-speaking">{{ t.services.speaking.tab | safe }}</button>
         </div>
 
         <div class="services-nav" hidden>
           <button class="services-arrow" type="button" data-step="-1"
-                  aria-label="Previous area of work">&lsaquo;</button>
+                  aria-label="{{ t.services.prev }}">&lsaquo;</button>
           <button class="services-arrow" type="button" data-step="1"
-                  aria-label="Next area of work">&rsaquo;</button>
+                  aria-label="{{ t.services.next }}">&rsaquo;</button>
         </div>
       </div>
 
       <div class="service-panels">
         <div class="service-panel" id="panel-events" aria-labelledby="tab-events">
-          <p>On site — presentation design and information architecture, with
-            the rehearsals senior leadership needs before they shape how an
-            industry thinks.</p>
+          <p>{{ t.services.events.body | safe }}</p>
         </div>
         <div class="service-panel" id="panel-strategy" aria-labelledby="tab-strategy">
-          <p>The structure of the argument — research, review and rehearsals on
-            your schedule, remote or on location. Settled before
-            anyone opens a deck.</p>
+          <p>{{ t.services.strategy.body | safe }}</p>
         </div>
         <div class="service-panel" id="panel-speaking" aria-labelledby="tab-speaking">
-          <p>Keynotes, and in-company workshops that prepare your sales and
-            training teams for the room — until they are able to do this
-            without me.</p>
+          <p>{{ t.services.speaking.body | safe }}</p>
+          {% if t.services.speaking.note %}
+          <p class="service-note">{{ t.services.speaking.note }}</p>
+          {% endif %}
         </div>
       </div>
     </section>
@@ -117,22 +118,22 @@ layout: base.njk
             data-fallback="{{ site.email }}">
         <div class="field-pair">
           <label class="field">
-            <span class="field-label">Name</span>
+            <span class="field-label">{{ t.contact.nameLabel }}</span>
             <input type="text" name="name" maxlength="100" autocomplete="name" required>
           </label>
           <label class="field">
-            <span class="field-label">Company</span>
+            <span class="field-label">{{ t.contact.companyLabel }}</span>
             <input type="text" name="company" maxlength="100" autocomplete="organization">
           </label>
         </div>
 
         <label class="field">
-          <span class="field-label">Email</span>
+          <span class="field-label">{{ t.contact.emailLabel }}</span>
           <input type="email" name="email" autocomplete="email" required>
         </label>
 
         <label class="field">
-          <span class="field-label">What’s the occasion, and when?</span>
+          <span class="field-label">{{ t.contact.occasionLabel }}</span>
           <textarea name="occasion" rows="2" maxlength="1000"></textarea>
         </label>
 
@@ -142,7 +143,7 @@ layout: base.njk
         <input class="gotcha" type="text" name="_gotcha" tabindex="-1"
                autocomplete="off" aria-hidden="true" readonly>
 
-        <button class="send" type="submit">Send</button>
+        <button class="send" type="submit">{{ t.contact.send }}</button>
         <p class="form-status" role="status" aria-live="polite"></p>
       </form>
       {% endif %}
@@ -151,12 +152,20 @@ layout: base.njk
   </main>
 
   <footer class="colophon">
-    <p>© {{ site.founded }}–{{ site.yearShort }} {{ site.entity }} · {{ site.location }}</p>
-    <p class="credit">Illustrations — plates from Diderot &amp; d’Alembert’s
-      <i>Encyclopédie</i>, 1751–1772. Type case via
-      <a href="https://commons.wikimedia.org/wiki/File:Planche_encyclop%C3%A9die_imprimerie_3_Casse.jpg">Wikimedia
-      Commons</a> / Gallica (BnF),
-      <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></p>
+    <nav class="lang-switch" aria-label="{{ t.langSwitch.label }}">
+      {% for l in locales %}
+      {%- if not loop.first %}<span class="lang-sep" aria-hidden="true">·</span>{% endif -%}
+      {% if l.code == locale.code %}
+      <span class="lang-current" aria-current="true">{{ l.label }}</span>
+      {% else %}
+      <a href="{{ l.path }}" data-lang="{{ l.code }}">{{ l.label }}</a>
+      {% endif %}
+      {% endfor %}
+    </nav>
+    <div class="colophon-meta">
+      <p>© {{ site.founded }}–{{ site.yearShort }} {{ site.entity }} · {{ t.footer.location }}</p>
+      <p class="credit">{{ t.footer.credit | safe }}</p>
+    </div>
   </footer>
 
 </div>

@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "Rafael Nepô · Arquiteto de Informação e Estrategista de Apresentação",
+    "description": "Arquitetura de eventos e conferências, e as narrativas que líderes seniores levam ao palco com ela. Para materiais que têm uma única chance de causar impacto.",
+    "ogImageAlt": "Rafael Nepô · Arquiteto de Informação e Estrategista de Apresentação. Da complexidade à clareza.",
+    "jobTitle": "Arquiteto de Informação e Estrategista de Apresentação"
+  },
+  "masthead": {
+    "role": "Arquiteto de Informação e Estrategista de Apresentação"
+  },
+  "title": "Da complexidade<br>à clareza.",
+  "lede": "Arquitetura de informação e estratégia de apresentação para organizações, e as equipes dentro delas, cuja mensagem tem uma única chance de causar impacto.",
+  "proof": {
+    "row1": { "a": "C-level e alta liderança desde 2012", "b": "Trabalhos entregues para Gartner, NVIDIA, Blizzard e outros" },
+    "row2": { "a": "100+ conferências, workshops e summits", "b": "Viagens a trabalho para eventos em mais de 10 países" }
+  },
+  "services": {
+    "heading": "Áreas de atuação",
+    "events": {
+      "tab": "Eventos ao Vivo",
+      "body": "Presencial: design de apresentações e arquitetura de informação, com os ensaios que preparam a alta liderança para moldar o pensamento de um setor inteiro."
+    },
+    "strategy": {
+      "tab": "Estratégia &amp; Conteúdo",
+      "body": "A estrutura do argumento: pesquisa, revisão e ensaios no seu ritmo, remoto ou presencial. Resolvido antes de qualquer slide ser aberto."
+    },
+    "speaking": {
+      "tab": "Palestras &amp; Treinamento",
+      "body": "Palestras principais e workshops internos que preparam suas equipes de vendas e treinamento para a sala, até que consigam fazer isso sem mim."
+    },
+    "prev": "Área de atuação anterior",
+    "next": "Próxima área de atuação"
+  },
+  "contact": {
+    "nameLabel": "Nome",
+    "companyLabel": "Empresa",
+    "emailLabel": "E-mail",
+    "occasionLabel": "Qual é a ocasião, e quando?",
+    "send": "Enviar"
+  },
+  "form": {
+    "sending": "Enviando…",
+    "success": "Obrigado. Eu leio pessoalmente cada uma dessas mensagens.",
+    "errorFallback": "O envio falhou. Por favor, escreva para {email}."
+  },
+  "footer": {
+    "location": "Brasil · EUA · Japão",
+    "credit": "Ilustrações: pranchas da <i>Encyclopédie</i> de Diderot e d’Alembert, 1751–1772. Caixa tipográfica via <a href=\"https://commons.wikimedia.org/wiki/File:Planche_encyclop%C3%A9die_imprimerie_3_Casse.jpg\">Wikimedia Commons</a> / Gallica (BnF), <a href=\"https://creativecommons.org/licenses/by-sa/4.0/\">CC BY-SA 4.0</a>"
+  },
+  "langSwitch": {
+    "label": "Idioma"
+  }
+}

@@ -1,24 +1,59 @@
+{% set t = i18n[locale.code] %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ locale.htmlLang }}">
 <head>
   <meta charset="UTF-8">
+  {% if locale.code == "en" %}
+  {# English is the default/international landing page, so it is the only
+     one that redirects — visitors already on /pt/ or /ja/ got there on
+     purpose (a link, a bookmark, a manual switch) and should stay put.
+     A stored preference always wins over the browser language; that
+     preference is only ever written by an explicit click on the language
+     switcher below, never by this auto-redirect itself. Synchronous and
+     placed before anything else in <head> so it fires before the English
+     page has a chance to paint. #}
+  <script>
+  (function () {
+    try {
+      var pref = localStorage.getItem('lang-pref');
+      var target = (pref === 'pt' || pref === 'ja') ? pref : null;
+
+      if (!target) {
+        var langs = navigator.languages || [navigator.language || ''];
+        for (var i = 0; i < langs.length; i++) {
+          var l = (langs[i] || '').toLowerCase();
+          if (l.indexOf('pt') === 0) { target = 'pt'; break; }
+          if (l.indexOf('ja') === 0) { target = 'ja'; break; }
+        }
+      }
+
+      if (target === 'pt') { location.replace('/pt/'); }
+      else if (target === 'ja') { location.replace('/ja/'); }
+    } catch (e) {}
+  })();
+  </script>
+  {% endif %}
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ site.title }}</title>
-  <meta name="description" content="{{ description or site.description }}">
-  <link rel="canonical" href="{{ site.url }}/">
+  <title>{{ t.meta.title }}</title>
+  <meta name="description" content="{{ t.meta.description }}">
+  <link rel="canonical" href="{{ site.url }}{{ locale.path }}">
+  {% for l in locales %}
+  <link rel="alternate" hreflang="{{ l.htmlLang }}" href="{{ site.url }}{{ l.path }}">
+  {% endfor %}
+  <link rel="alternate" hreflang="x-default" href="{{ site.url }}/">
   <meta name="theme-color" content="#0b0b09">
 
-  <meta property="og:title" content="{{ site.title }}">
-  <meta property="og:description" content="{{ description or site.description }}">
-  <meta property="og:url" content="{{ site.url }}/">
+  <meta property="og:title" content="{{ t.meta.title }}">
+  <meta property="og:description" content="{{ t.meta.description }}">
+  <meta property="og:url" content="{{ site.url }}{{ locale.path }}">
   <meta property="og:type" content="website">
   <meta property="og:image" content="{{ site.url }}/images/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Rafael Nepô — Information Architect &amp; Presentation Strategist. I turn complexity into clarity.">
+  <meta property="og:image:alt" content="{{ t.meta.ogImageAlt }}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ site.title }}">
-  <meta name="twitter:description" content="{{ description or site.description }}">
+  <meta name="twitter:title" content="{{ t.meta.title }}">
+  <meta name="twitter:description" content="{{ t.meta.description }}">
   <meta name="twitter:image" content="{{ site.url }}/images/og.jpg">
 
   {# Mee's own favicon set, so the two properties share an identity. #}
@@ -37,10 +72,10 @@
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Rafael Nepô",
-    "url": "{{ site.url }}/",
+    "url": "{{ site.url }}{{ locale.path }}",
     "email": "mailto:{{ site.email }}",
-    "jobTitle": "Information Architect & Presentation Strategist",
-    "description": "{{ site.description }}",
+    "jobTitle": "{{ t.meta.jobTitle }}",
+    "description": "{{ t.meta.description }}",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "São Paulo",
@@ -69,6 +104,15 @@
 
   <script>
   (function () {
+    /* ---- Language switcher -----------------------------------------
+       Records an explicit choice so the redirect script in <head> (only
+       present on the English page) stops overriding it on later visits. */
+    document.querySelectorAll('.lang-switch a[data-lang]').forEach(function (a) {
+      a.addEventListener('click', function () {
+        try { localStorage.setItem('lang-pref', a.dataset.lang); } catch (e) {}
+      });
+    });
+
     var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     /* ---- Parallax -------------------------------------------------
@@ -226,6 +270,7 @@
        script removed. Here it submits in the background so a reply
        never costs the visitor the page they are reading. */
     var inquiry = document.querySelector('.inquiry');
+    var formCopy = {{ t.form | dump | safe }};
 
     if (inquiry && window.fetch) {
       var status = inquiry.querySelector('.form-status');
@@ -235,7 +280,7 @@
         e.preventDefault();
         send.disabled = true;
         status.className = 'form-status';
-        status.textContent = 'Sending…';
+        status.textContent = formCopy.sending;
 
         /* Second guard on the honeypot. Anything in it here came from a
            password manager, not a person — a bot without JS never runs
@@ -251,7 +296,7 @@
           if (res.ok) {
             inquiry.reset();
             status.className = 'form-status is-ok';
-            status.textContent = 'Thank you — I read every one of these myself.';
+            status.textContent = formCopy.success;
           } else {
             return res.json().then(function (data) {
               throw new Error((data.errors || []).map(function (x) { return x.message; }).join(', '));
@@ -261,7 +306,7 @@
           status.className = 'form-status is-error';
           status.textContent = (err && err.message)
             ? err.message
-            : 'That did not send. Please email ' + inquiry.dataset.fallback + ' instead.';
+            : formCopy.errorFallback.replace('{email}', inquiry.dataset.fallback);
         }).then(function () {
           send.disabled = false;
         });

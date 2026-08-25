@@ -268,6 +268,12 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
   margin-bottom: var(--space-md);
 }
 
+/* 42ch is measured against the Latin "0" glyph in --font-serif, which is
+   roughly half the width of a full-width CJK character — too narrow for
+   the manual <br> line breaks in the Japanese lede, which would otherwise
+   wrap again mid-word. Widened to fit those breaks as intended. */
+html[lang="ja"] .lede { max-width: 25em; }
+
 /* Proof ------------------------------------- */
 
 /* Services ---------------------------------
@@ -399,6 +405,17 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
   font-weight: 300;
   line-height: 1.5;
   color: #c6c1b3;
+}
+
+/* An aside, not part of the pitch — smaller and in the mono voice the
+   site already uses for secondary information (colophon, switcher). */
+.service-note {
+  margin-top: var(--space-xs);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+  color: var(--ink-dim);
 }
 
 /* Tab state only — set when the tab controller is actually driving,
@@ -600,14 +617,40 @@ html { scrollbar-color: #33322c var(--ink-bg); scrollbar-width: thin; }
   max-width: 1100px;
   margin: var(--space-lg) auto 0;
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--space-xs) var(--space-md);
+  flex-direction: column;
+  gap: var(--space-xs);
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.05em;
   color: #6d6a60;
 }
+
+.colophon-meta {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-md);
+}
+
+.lang-switch {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4em;
+}
+
+.lang-switch a,
+.lang-current { color: inherit; }
+
+.lang-switch a {
+  text-decoration: underline;
+  text-decoration-color: rgba(157, 152, 138, 0.45);
+  text-underline-offset: 0.25em;
+  transition: color var(--transition), text-decoration-color var(--transition);
+}
+
+.lang-switch a:hover { color: var(--accent); }
+
+.lang-current { opacity: 0.55; }
 
 .credit { font-style: normal; }
 

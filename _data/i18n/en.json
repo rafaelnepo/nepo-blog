@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "Rafael Nepô · Information Architect & Presentation Strategist",
+    "description": "Conference and event architecture, and the narratives senior leaders take on stage with it. For material that gets one chance to land.",
+    "ogImageAlt": "Rafael Nepô · Information Architect & Presentation Strategist. I turn complexity into clarity.",
+    "jobTitle": "Information Architect & Presentation Strategist"
+  },
+  "masthead": {
+    "role": "Information Architect & Presentation Strategist"
+  },
+  "title": "I turn complexity<br>into clarity.",
+  "lede": "Information architecture and presentation strategy for organizations, and the teams inside them, whose message only gets one chance to land.",
+  "proof": {
+    "row1": { "a": "C-suite & senior leadership since 2012", "b": "Work delivered for Gartner, NVIDIA, Blizzard & others" },
+    "row2": { "a": "100+ conferences, workshops & summits", "b": "Flown in for events in 10+ countries" }
+  },
+  "services": {
+    "heading": "Areas of work",
+    "events": {
+      "tab": "Live Events",
+      "body": "On site: presentation design and information architecture, with the rehearsals senior leadership needs before they shape how an industry thinks."
+    },
+    "strategy": {
+      "tab": "Strategy &amp; Content",
+      "body": "The structure of the argument: research, review and rehearsals on your schedule, remote or on location. Settled before anyone opens a deck."
+    },
+    "speaking": {
+      "tab": "Speaking &amp; Training",
+      "body": "Keynotes, and in-company workshops that prepare your sales and training teams for the room, until they are able to do this without me."
+    },
+    "prev": "Previous area of work",
+    "next": "Next area of work"
+  },
+  "contact": {
+    "nameLabel": "Name",
+    "companyLabel": "Company",
+    "emailLabel": "Email",
+    "occasionLabel": "What’s the occasion, and when?",
+    "send": "Send"
+  },
+  "form": {
+    "sending": "Sending…",
+    "success": "Thank you. I read every one of these myself.",
+    "errorFallback": "That did not send. Please email {email} instead."
+  },
+  "footer": {
+    "location": "Brazil · US · Japan",
+    "credit": "Illustrations: plates from Diderot &amp; d’Alembert’s <i>Encyclopédie</i>, 1751–1772. Type case via <a href=\"https://commons.wikimedia.org/wiki/File:Planche_encyclop%C3%A9die_imprimerie_3_Casse.jpg\">Wikimedia Commons</a> / Gallica (BnF), <a href=\"https://creativecommons.org/licenses/by-sa/4.0/\">CC BY-SA 4.0</a>"
+  },
+  "langSwitch": {
+    "label": "Language"
+  }
+}
