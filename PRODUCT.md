@@ -55,6 +55,12 @@ The last three months were spent building working products with Claude Code that
 people use daily. This is credibility for the core practice, not a service line
 being sold — do not present it as an offer.
 
+The Japanese page carries a distinct angle, not a straight translation: it
+pitches helping Japanese senior leadership present persuasively to
+English-speaking/international clients and investors, and offers an
+interpreter for training sessions for those not yet fully confident in
+English. English and Portuguese stay on the general positioning above.
+
 ## Operating Context
 
 Work happens against a fixed public date that cannot slip. Material arrives late,
@@ -68,6 +74,11 @@ are frequently a layer removed from the executive who will actually be on stage.
 - Founder of Mee (mee.cc), a visual knowledge-management platform. The site lives
   at nepo.mee.cc, a subdomain of that product.
 - Site is a static Eleventy build deployed to GitHub Pages on push to `main`.
+- Site is available in English, Portuguese, and Japanese (added 2026-08-25),
+  one Eleventy template paginated across `/`, `/pt/`, `/ja/`. Language is
+  auto-detected from the browser (not IP geolocation — GitHub Pages has no
+  server/edge compute), with a manual switcher in the masthead that overrides
+  it. See DEPLOYMENT.md's Internationalization section for the mechanics.
 - **Undecided:** whether decision-making dashboards and AI/IA product work become
   sellable service lines. Both appear in the About copy as capability and
   credibility. Neither was confirmed as an offer. Do not build page structure that
@@ -77,7 +88,7 @@ are frequently a layer removed from the executive who will actually be on stage.
 
 - Name: Rafael Nepô (also "Nepô").
 - Title: **Information Architect & Presentation Strategist**. Both halves are
-  load-bearing — do not shorten to one on any surface.
+  load-bearing — do not shorten to one on any surface, in any language.
 - Company founded 2018; copyright notices run from that year. Practice
   experience on global events predates it, from 2012.
 - Accent colour `#FFDC1E`, carried from the previous site.

@@ -30,12 +30,68 @@ the old setup and are gone.
 
 ## The site
 
-One page — `index.njk`, rendered by Eleventy with `_includes/base.njk`. Content
-and configuration live in `_data/site.js` (address, Formspree endpoint, year).
-There is no `articles/` directory and no `/design-system/` page.
+One template — `index.njk`, rendered by Eleventy with `_includes/base.njk` —
+paginated over `_data/locales.js` into three pages: `/` (English), `/pt/`
+(Portuguese), `/ja/` (Japanese). Locale-independent configuration (address,
+Formspree endpoint, year) lives in `_data/site.js`; every user-facing string
+lives in `_data/i18n/{en,pt,ja}.json`, keyed identically across the three
+files. There is no `articles/` directory and no `/design-system/` page.
 
 The inquiry form posts to Formspree. Its endpoint is `site.formEndpoint`; while
 that value is empty the page falls back to the plain email address.
+
+### Internationalization (added 2026-08-25)
+
+Three locales share the one template via Eleventy pagination — see
+`_data/locales.js` (locale code, `<html lang>` value, and URL path) and
+`_data/i18n/{en,pt,ja}.json` (every string on the page, keyed identically
+across the three files). Add a fourth locale by adding one entry to each.
+
+**Language switcher** — `EN · PT · 日本語` in the masthead, between the
+name/role and the Mee mark. Clicking it writes the choice to
+`localStorage['lang-pref']`.
+
+**Auto-redirect** — only the English page (`_includes/base.njk`, guarded by
+`{% if locale.code == "en" %}`) carries a synchronous script at the very top
+of `<head>` that redirects to `/pt/` or `/ja/` based on
+`navigator.languages`, unless `lang-pref` is already set — which only
+happens via an explicit switcher click; the auto-redirect never sets it
+itself. This is **browser language**, not IP geolocation: GitHub Pages has
+no server/edge compute (see above — that infra was deliberately removed
+once already), and a client-side geo-IP lookup would mean sending a
+third-party service the visitor's IP before they've done anything. `/pt/`
+and `/ja/` never redirect — landing there is treated as intentional.
+
+**SEO** — each page has its own canonical URL, `hreflang` alternates for all
+three plus `x-default` → `/`, and per-locale `<title>`/OG/JSON-LD sourced
+from `i18n.<locale>.meta`.
+
+**Translations** — drafted by Claude, reviewed by the user before each
+commit. Japanese copy is intentionally different in substance, not just
+translated: the three service panels pitch helping Japanese senior
+leadership present to English-speaking/international audiences (an
+interpreter-support note sits under Speaking & Training, JA only —
+`services.speaking.note` in `ja.json`, rendered conditionally so EN/PT are
+unaffected).
+
+**CJK line-wrapping** — `ch`-based CSS widths (e.g. `.lede`'s
+`max-width: 42ch`) are measured against the Latin "0" glyph, roughly half
+the width of a full-width Japanese character — too narrow for the manual
+`<br>` breaks in the Japanese copy, which will silently re-wrap mid-word
+without it. `html[lang="ja"] .lede` overrides to `25em` for this reason.
+The service panels have no such cap (their column isn't `ch`-based), so
+their breaks were placed by measuring actual rendered character counts per
+line via screenshot, not by formula — re-verify by screenshot if that copy
+changes.
+
+**Testing note** — this machine's headless Chrome
+(`/Applications/Google Chrome.app`) will not lay out below roughly 500px of
+internal viewport width no matter what `--window-size` is passed; it
+silently clamps, then crops the screenshot to the smaller canvas that was
+actually requested. Confirm with an injected `window.innerWidth` check
+before trusting a narrow screenshot — an element missing from the edge of
+one may just be cropped, not actually broken. Real device testing is more
+reliable than this workaround.
 
 ### Background plates
 
@@ -208,6 +264,14 @@ the honeypot is being tripped (check the Formspree dashboard for
 ### Images not showing
 
 Use a leading slash — `/images/filename.jpg`. Files live in `images/`.
+
+### Wrong language showing
+
+A visitor stuck on the "wrong" language after switching is usually
+`localStorage['lang-pref']` from earlier testing, not a bug — the
+auto-redirect on `/` only respects a stored preference, it never guesses
+based on anything else once one is set. Clear it (devtools → Application →
+Local Storage) to see the browser-language auto-detect again.
 
 ## Rollback
 
