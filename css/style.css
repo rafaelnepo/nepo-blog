@@ -491,11 +491,12 @@ html[lang="ja"] .lede { max-width: 25em; }
 .proof-row + .proof-row { margin-top: 4px; }
 
 /* The rules between the two rows must land on the same x. A fixed
-   (not minimum) first-column width guarantees that even when content
-   would otherwise render wider than 320px in a given locale — it
-   wraps inside the column instead of pushing the rule out of line. */
+   (not minimum) first-column width guarantees that regardless of a
+   locale's text length, the rule lands at the same spot in both
+   rows; 368px is wide enough for the longest first-column string
+   across en/ja/pt to still fit on one line. */
 .proof-row span:first-child {
-  width: 320px;
+  width: 368px;
   flex-shrink: 0;
 }
 
