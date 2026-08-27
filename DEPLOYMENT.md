@@ -1,7 +1,7 @@
 # DEPLOYMENT — nepo.mee.cc
 
 Reference for how this site builds, deploys, and authenticates mail.
-Last verified 2026-08-05.
+Last verified 2026-08-27.
 
 > **History:** this file was originally a go-live checklist for a multi-article
 > blog deployed on Cloudflare Pages. Neither is true any more — the site is a
@@ -83,6 +83,19 @@ The service panels have no such cap (their column isn't `ch`-based), so
 their breaks were placed by measuring actual rendered character counts per
 line via screenshot, not by formula — re-verify by screenshot if that copy
 changes.
+
+**Proof-row column alignment** — the two `.proof-row` lines (`proof.row1`/
+`row2`) put a vertical rule between column a and column b via `border-left`
+on the second `<span>`; for that rule to land at the same x in both rows,
+`.proof-row span:first-child` needs a fixed `width` (currently `368px`) plus
+`flex-shrink: 0`, not just a `min-width` — a `min-width` only holds alignment
+by coincidence, for as long as every locale's column-a string renders
+narrower than it, and silently breaks (rule drifts row-to-row) the moment one
+doesn't. `368px` was picked by screenshot to be the narrowest width that
+still keeps every current en/ja/pt column-a string on one line — re-verify
+by screenshot (same headless-Chrome caveat above applies) if that copy
+changes, since a longer string wraps inside the fixed column rather than
+pushing the rule out of alignment.
 
 **Testing note** — this machine's headless Chrome
 (`/Applications/Google Chrome.app`) will not lay out below roughly 500px of
