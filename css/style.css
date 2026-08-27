@@ -490,10 +490,14 @@ html[lang="ja"] .lede { max-width: 25em; }
 
 .proof-row + .proof-row { margin-top: 4px; }
 
-/* The rules between the two rows must land on the same x. The type is
-   monospaced at a fixed 12px, so a shared first-column width aligns
-   them exactly rather than approximately. */
-.proof-row span:first-child { min-width: 320px; }
+/* The rules between the two rows must land on the same x. A fixed
+   (not minimum) first-column width guarantees that even when content
+   would otherwise render wider than 320px in a given locale — it
+   wraps inside the column instead of pushing the rule out of line. */
+.proof-row span:first-child {
+  width: 320px;
+  flex-shrink: 0;
+}
 
 /* Hairline column rules rather than bullets: they survive flex-wrap
    without stranding a separator at the start of a line. */
@@ -761,7 +765,9 @@ html[lang="ja"] .lede { max-width: 25em; }
   .proof-row span:first-child {
     display: block;
     position: relative;
+    width: auto;
     min-width: 0;
+    flex-shrink: initial;
     padding-left: 1.15em;
     border-left: 0;
   }
